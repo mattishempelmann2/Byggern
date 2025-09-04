@@ -12,18 +12,18 @@
 
 int main(void)
 {
-	DDRA = 0xFF;
-	PORTA |= (0<<PA7);
+	//DDRA = 0xFF;
+	//PORTA |= (0<<PA7);
 	
     /* Replace with your application code */
     while (1) 
     {
-		for(int n=0;n<10000;n++){
-			PORTA |= (1<<PA7);
-		}
-		for(int n=0;n<10000;n++){
-			PORTA &= (0<<PA7);
-		}
+		//for(int n=0;n<10000;n++){
+			//PORTA |= (1<<PA7);
+		//}
+		//for(int n=0;n<10000;n++){
+		//	PORTA &= (0<<PA7);
+		//}
 	}
 }
 
