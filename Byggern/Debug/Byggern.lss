@@ -127,8 +127,8 @@ void SRAM_test(void) {
   c0:	1f 93       	push	r17
   c2:	cf 93       	push	r28
   c4:	df 93       	push	r29
-	volatile char *ext_ram = (char *) 0x1800; // Start address for the SRAM
-	uint16_t ext_ram_size = 0x800;
+	volatile char *ext_ram = (char *) 0x1400; // Start address for the SRAM
+	uint16_t ext_ram_size = 0xC00;
 	uint16_t write_errors = 0;
 	uint16_t retrieval_errors = 0;
 	printf("Starting SRAM test...\n");
@@ -149,8 +149,8 @@ void SRAM_test(void) {
 }
 
 void SRAM_test(void) {
-	volatile char *ext_ram = (char *) 0x1800; // Start address for the SRAM
-	uint16_t ext_ram_size = 0x800;
+	volatile char *ext_ram = (char *) 0x1400; // Start address for the SRAM
+	uint16_t ext_ram_size = 0xC00;
 	uint16_t write_errors = 0;
   dc:	00 e0       	ldi	r16, 0x00	; 0
   de:	10 e0       	ldi	r17, 0x00	; 0
@@ -165,7 +165,7 @@ void SRAM_test(void) {
   e2:	0e 94 45 01 	call	0x28a	; 0x28a <rand>
 		ext_ram[i] = some_value;
   e6:	fe 01       	movw	r30, r28
-  e8:	f8 5e       	subi	r31, 0xE8	; 232
+  e8:	fc 5e       	subi	r31, 0xEC	; 236
   ea:	80 83       	st	Z, r24
 		uint8_t retreived_value = ext_ram[i];
   ec:	20 81       	ld	r18, Z
@@ -204,7 +204,7 @@ void SRAM_test(void) {
 	for (uint16_t i = 0; i < ext_ram_size; i++) {
  120:	21 96       	adiw	r28, 0x01	; 1
  122:	c1 15       	cp	r28, r1
- 124:	98 e0       	ldi	r25, 0x08	; 8
+ 124:	9c e0       	ldi	r25, 0x0C	; 12
  126:	d9 07       	cpc	r29, r25
  128:	e0 f2       	brcs	.-72     	; 0xe2 <SRAM_test+0x28>
 			printf("Write phase error: ext_ram[%4d] = %02X (should be %02X)\n", i, retreived_value, some_value);
@@ -220,8 +220,8 @@ void SRAM_test(void) {
  132:	d0 e0       	ldi	r29, 0x00	; 0
 
 void SRAM_test(void) {
-	volatile char *ext_ram = (char *) 0x1800; // Start address for the SRAM
-	uint16_t ext_ram_size = 0x800;
+	volatile char *ext_ram = (char *) 0x1400; // Start address for the SRAM
+	uint16_t ext_ram_size = 0xC00;
 	uint16_t write_errors = 0;
 	uint16_t retrieval_errors = 0;
  134:	e1 2c       	mov	r14, r1
@@ -237,7 +237,7 @@ void SRAM_test(void) {
  13a:	0e 94 45 01 	call	0x28a	; 0x28a <rand>
 		uint8_t retreived_value = ext_ram[i];
  13e:	fe 01       	movw	r30, r28
- 140:	f8 5e       	subi	r31, 0xE8	; 232
+ 140:	fc 5e       	subi	r31, 0xEC	; 236
  142:	20 81       	ld	r18, Z
 		if (retreived_value != some_value) {
  144:	28 17       	cp	r18, r24
@@ -275,7 +275,7 @@ void SRAM_test(void) {
 	for (uint16_t i = 0; i < ext_ram_size; i++) {
  178:	21 96       	adiw	r28, 0x01	; 1
  17a:	c1 15       	cp	r28, r1
- 17c:	98 e0       	ldi	r25, 0x08	; 8
+ 17c:	9c e0       	ldi	r25, 0x0C	; 12
  17e:	d9 07       	cpc	r29, r25
  180:	e0 f2       	brcs	.-72     	; 0x13a <SRAM_test+0x80>
 		if (retreived_value != some_value) {
