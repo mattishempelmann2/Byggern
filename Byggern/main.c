@@ -9,6 +9,7 @@
 #include "avr/iom162.h"
 #include "uart.h"
 #include "time.h"
+#include "SRAM.h"
 
 #define BAUD 9600 //Baud Rate
 #define FOSC 4915200 //Clock speed
@@ -18,17 +19,23 @@
 int main(void)
 {	
     /* Replace with your application code */
-	//UART_init(MYUBRR);
+	UART_init(MYUBRR);
+  	SRAM_init();
+  	SRAM_test();
+	
 	//printf("Ting funker!");
-	DDRA = 0xFF;
-	DDRE |= (1<<PE1);
-	PORTA &= (0<<PA0);
+	
+	
+// 	DDRA = 0xFF;
+// 	DDRE |= (1<<PE1);
+// 	PORTA &= (0<<PA0);
 	
 // 		test av latch
 // 		//PORTE |= (1<<PE1);
 // 		PORTA |= (1<<PA0);
 // 		PORTE &= (0<<PE1);
 // 		PORTA &= (0<<PA0);
+	
 	
 
 	

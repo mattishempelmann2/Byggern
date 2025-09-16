@@ -6,6 +6,9 @@
  */ 
 
 #include "SRAM.h"
+#include <avr/io.h>
+#include "avr/iom162.h"
+#include "stdio.h"
 
 void SRAM_init(){
 	MCUCR |= (1<<SRE);
