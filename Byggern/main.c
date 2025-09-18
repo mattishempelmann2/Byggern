@@ -11,10 +11,10 @@
 #include "time.h"
 #include "SRAM.h"
 #include "Clock.h"
+#include "Joystick.h"
 
 #define BAUD 9600 //Baud Rate
 #define FOSC 4915200 //Clock speed
-//#define MYUBRR FOSC/(16*BAUD)-1
 #define MYUBRR 31
 
 
