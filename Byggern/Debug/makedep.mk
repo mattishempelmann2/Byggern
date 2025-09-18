@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+Clock.c
+
 SRAM.c
 
 main.c
