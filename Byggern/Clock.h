@@ -12,7 +12,7 @@
 
 
 #ifndef CLOCK_H_
-#define CLOCK_H_
+#define CLOCK_H_ //remove me
 
 void Clock_init();
 
