@@ -5,7 +5,7 @@
  *  Author: johankna
  */ 
 
-#include "uart.h"
+#include "Uart.h"
 
 
 UART_init(unsigned int ubrr){

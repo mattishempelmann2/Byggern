@@ -21,7 +21,8 @@
 int main(void)
 {	
 	UART_init(MYUBRR);
-	Clock_init();
+	
+	//Clock_init();
 
     while (1) 
     {
