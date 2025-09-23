@@ -9,14 +9,14 @@
 #include <stdio.h>
 
 
-
-#ifndef JOYSTICK_H_
-#define JOYSTICK_H_
-
-void Calibrate_joystick();
-
-struct Calc_curr_anal_pos();
-
-struct Calc_curr_direction();
-
-#endif /* JOYSTICK_H_ */
+// 
+// #ifndef JOYSTICK_H_
+// #define JOYSTICK_H_
+// 
+// void Calibrate_joystick();
+// 
+// struct Calc_curr_anal_pos();
+// 
+// struct Calc_curr_direction();
+// 
+// #endif /* JOYSTICK_H_ */

@@ -12,7 +12,7 @@
 
 
 void ADC_init();
-uint8_t adc_read(uint8_t channel); //volatile
+volatile uint8_t * adc_read(void); //volatile
 
 
 

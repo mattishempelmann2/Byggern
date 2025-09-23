@@ -136,6 +136,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adc.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Clock.c">
       <SubType>compile</SubType>
     </Compile>
@@ -157,10 +163,10 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart.c">
+    <Compile Include="Uart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart.h">
+    <Compile Include="Uart.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

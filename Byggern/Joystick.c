@@ -6,17 +6,17 @@
  */ 
 #include "Joystick.h"
 
-
-void Calibrate_joystick(){
-	
-}
-
-struct Calc_curr_anal_pos(){
-	struct a;
-	return a;
-}
-
-struct Calc_curr_direction(){
-	struct a;
-	return a;
-}
+// 
+// void Calibrate_joystick(){
+// 	
+// }
+// 
+// struct Calc_curr_anal_pos(){
+// 	struct a;
+// 	return a;
+// }
+// 
+// struct Calc_curr_direction(){
+// 	struct a;
+// 	return a;
+// }
