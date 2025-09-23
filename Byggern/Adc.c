@@ -16,7 +16,7 @@ void ADC_init(){
 	
 	volatile char *ADC = (char *) 0x1000; // Start address for the SRAM
 	uint16_t ADC_size = 0x400;
-	ADC[0] = ;
+	ADC[0] = 0;
 	//initialize ADC by putting the correct registers to the correct values
 	
 	
@@ -25,7 +25,7 @@ void ADC_init(){
 }
 
 
-uint8_t adc_read(uint8_t channel){
+volatile uint8_t adc_read(uint8_t channel){
 	
 	return 0;
 }
