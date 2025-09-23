@@ -7,10 +7,9 @@
 
 #include <avr/io.h>
 #include "avr/iom162.h"
-#include "uart.h"
+#include "Uart.h"
 #include "time.h"
 #include "SRAM.h"
-#include "Clock.h"
 #include "Joystick.h"
 
 #define BAUD 9600 //Baud Rate
