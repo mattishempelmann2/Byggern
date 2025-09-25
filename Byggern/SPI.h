@@ -25,6 +25,11 @@ void spi_transmit(char Data, enum slave SS);
 
 char spi_receive(enum slave SS);
 
+void clear_SPIF();
+
+char spi_tranceive(char Data, enum slave SS);
+
+
 
 
 #endif /* SPI_H_ */

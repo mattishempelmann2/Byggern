@@ -23,16 +23,26 @@
 int main(void)
 {	
 	UART_init(MYUBRR);
-	ADC_init();
-	Calibrate_joystick();
+	init_SPI();
+	//ADC_init();
+	//Calibrate_joystick();
+	
+// 	char d;
+// 	spi_transmit('x', IO);
+// 	d = spi_receive(IO);
+// 	printf(d);
+	char k;
 
 	
-
     while (1) 
     {
-		updateJoystick();
-		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
-		printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
+		//spi_transmit('x', IO);
+		k = spi_tranceive('x', IO);
+		printf("mainloop\n\r");
+		printf("k='%c'\r\n", (char)k);  
+// 		updateJoystick();
+// 		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
+// 		printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
 	}
 }
 
