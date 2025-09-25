@@ -23,7 +23,7 @@ void clear_SPIF(){
 }
 
 
-void spi_transmit(char Data, enum slave SS){
+void spi_transmit(uint8_t Data, enum slave SS){
 	printf("for\n\r");
 	if( SS == IO){
 		printf("etter\n\r");
@@ -46,7 +46,7 @@ void spi_transmit(char Data, enum slave SS){
 	return;
 }
 
-char spi_receive(enum slave SS){
+uint8_t spi_receive(enum slave SS){
 	SPDR = 0x00;
 	if(SS == IO){
 		PORTB &= ~(1 << PB4);
@@ -64,8 +64,8 @@ char spi_receive(enum slave SS){
 }
 
 
-char spi_tranceive(char Data, enum slave SS){
-	volatile char motatt;
+uint8_t spi_tranceive(uint8_t Data, enum slave SS){
+	volatile uint8_t motatt;
 	static volatile uint8_t kast;
 	if( SS == IO){
 		PORTB &= ~(1 <<PB4);
@@ -87,6 +87,18 @@ char spi_tranceive(char Data, enum slave SS){
 		}
 	return 'a';
 	}
+	
+
+void spi_tranceive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
+	for(uint8_t i = 0; i < size; i++){
+		bytes[i] = spi_tranceive(bytes[i], SS);
+		bytes[i] ++;
+	}
+	return;
+}
+
+	
+
 
 
 //

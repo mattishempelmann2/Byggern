@@ -31,15 +31,25 @@ int main(void)
 // 	spi_transmit('x', IO);
 // 	d = spi_receive(IO);
 // 	printf(d);
-	char k;
+	uint8_t k[10];
+	for(int i = 0; i < 10; i ++){
+		k[i] = 'A' + i;
+	}
+	
+	spi_tranceive_bytes(k, 10, IO);
+	
+	for(int i = 0; i < 10; i ++){
+ 		printf("k='%c'\r\n", k[i]);
+	}
+
 
 	
     while (1) 
-    {
+    {		
 		//spi_transmit('x', IO);
-		k = spi_tranceive('x', IO);
-		printf("mainloop\n\r");
-		printf("k='%c'\r\n", (char)k);  
+// 		k = spi_tranceive('x', IO);
+// 		printf("mainloop\n\r");
+// 		printf("k='%c'\r\n", (char)k);  
 // 		updateJoystick();
 // 		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
 // 		printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
