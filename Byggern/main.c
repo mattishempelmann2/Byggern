@@ -12,6 +12,7 @@
 #include "SRAM.h"
 #include "Joystick.h"
 #include "Adc.h"
+#include "SPI.h"
 
 #define BAUD 9600 //Baud Rate
 #define FOSC 4915200 //Clock speed
@@ -23,17 +24,15 @@ int main(void)
 {	
 	UART_init(MYUBRR);
 	ADC_init();
+	Calibrate_joystick();
+
 	
-	//Clock_init();
 
     while (1) 
     {
-		volatile uint8_t *p = adc_read();
-		printf("Verdi på 0 = %u\n\r", *p);
-		printf("Verdi på 1 = %u\n\r", *(p+1));
-		printf("Verdi på 2 = %u\n\r", *(p+2));
-		printf("Verdi på 3 = %u\n\r", *(p+3));
-
+		updateJoystick();
+		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
+		printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
 	}
 }
 

@@ -6,6 +6,9 @@
  */ 
 #include <avr/io.h>
 #include "avr/iom162.h"
+#include "SRAM.h"
+#include "avr/cpufunc.h"
+#include "Clock.h"
 
 #ifndef ADC_H_
 #define ADC_H_

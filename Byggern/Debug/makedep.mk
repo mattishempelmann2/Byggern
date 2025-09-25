@@ -8,6 +8,8 @@ Clock.c
 
 Joystick.c
 
+SPI.c
+
 SRAM.c
 
 main.c
