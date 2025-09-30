@@ -24,14 +24,10 @@ void clear_SPIF(){
 
 
 void spi_transmit(uint8_t Data, enum slave SS){
-	printf("for\n\r");
 	if( SS == IO){
-		printf("etter\n\r");
 		PORTB &= ~(1 << PB4);
 		SPDR = Data;
-		while(!(SPSR & (1 << SPIF)));
-		printf("spiferdig\n\r");
-		PORTB |= (1 << PB4);
+		while(!(SPSR & (1 << SPIF))); 
 		clear_SPIF();
 		return;
 	}
@@ -39,28 +35,10 @@ void spi_transmit(uint8_t Data, enum slave SS){
 		PORTB &= ~(1 << PB3);
 		SPDR = Data;
 		while(!(SPSR & (1 << SPIF)));
-		PORTB |= (1 << PB3);
 		clear_SPIF();
 		return;
 	}
 	return;
-}
-
-uint8_t spi_receive(enum slave SS){
-	SPDR = 0x00;
-	if(SS == IO){
-		PORTB &= ~(1 << PB4);
-		while(!(SPSR & (1 << SPIF)));
-		PORTB |= (1 << PB4);
-		return SPDR;
-	}
-	else if(SS == DISPLAY){
-		PORTB &= ~(1 << PB3);
-		while(!(SPSR & (1 << SPIF)));
-		PORTB |= (1 << PB3);
-		return SPDR;
-	}
-	return 'a';
 }
 
 
@@ -93,22 +71,81 @@ void spi_tranceive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	for(uint8_t i = 0; i < size; i++){
 		bytes[i] = spi_tranceive(bytes[i], SS) + 1;
 	}
+	
 	return;
 }
 
 void spi_transmit_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	for(uint8_t i = 0; i < size; i++){
 		spi_transmit(bytes[i], SS);
+			if (i==0){
+				_delay_us(40);
+			}
+			else{
+				_delay_us(2);
+			}
 		}
+		clear_PB4(SS);
 	return;
 	};
 
 void spi_receive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
+	printf("\n\r");
 	for(uint8_t i = 0; i < size; i++){
-		bytes[i] = spi_receive(SS);
-	}
+		uint8_t temp = spi_receive(SS);
+		printf("%c, ",temp);
+		bytes[i] = temp;
+		_delay_ms(20);
+		}
+		_delay_us(500);
+		clear_PB4(SS);
+		printf("\n\r");
 	return;
 }
 
+void clear_PB4(enum slave SS){
+	if(SS == IO){
+		PORTB |= (1 << PB4);
+	}
+	else if(SS==DISPLAY){
+		PORTB |= (1 << PB3);
+	}
+}
+
+void select_slave(enum slave S) {
+	if (S == IO) {
+		PORTB &= ~(1 << PB4);
+		}
+	else if (S == DISPLAY) {
+		PORTB &= ~(1 << PB3);
+	} else { deselect_slave(); }
+}
+
+void deselect_slave(enum slave S) {
+	if (S == IO) {
+		PORTB |= (1 << PB4);
+	}
+	else if (S == DISPLAY) {
+		PORTB |= (1 << PB3);
+		} else { PORTB |= (1 << PB3) | (1 << PB4); }
+}
+
+uint8_t spi_transfer(uint8_t data) {
+	SPDR = data;
 	
+	while(!(SPSR & (1<<SPIF)));
+	
+	return SPDR;
+}
+
+void spi_write(uint8_t data) {spi_transfer(data);}
+	
+uint8_t spi_read(void) { return spi_transfer(0x01); }
+	
+void spi_read_bytes(uint8_t* data, uint16_t length){
+	for(uint16_t i = 0; i < length; i++){
+		data[i]=spi_read();
+		_delay_us(2);
+	}
+}
 

@@ -44,33 +44,43 @@ int main(void)
 // 	for(int i = 0; i < 10; i ++){
 //  		printf("k='%c'\r\n", k[i]);
 // 	}
-
-	PORTB &= ~(1 << PB4);
-	SPDR = 0x05;
-	while(!(SPSR & (1 << SPIF)));
-	clear_SPIF();
-	_delay_us(40);
-	SPDR = 0x05;
-	while(!(SPSR & (1 << SPIF)));
-	clear_SPIF();
-	_delay_us(10);
-	SPDR = 0x00;
-	while(!(SPSR & (1 << SPIF)));
-	clear_SPIF();
-	PORTB |= (1 << PB4);
-
-
-
+	uint8_t command = 0x05;
+	uint8_t led_number = 0x04;
+	uint8_t led_on = 0x01;
+	uint8_t led_off = 0x00;
 	
+	uint8_t turn_on_led[] = {command, led_number, led_off};
+	//spi_transmit_bytes(turn_on_led,3,IO);
+	
+	command = 0x07;
+	select_slave(IO);
+	spi_write(command,IO);
+	uint8_t info[35];
+	spi_read_bytes(info, 35, IO);
+	deselect_slave(IO);
+	
+	//spi_transmit_bytes(&command, 1, IO);
+	////
+	//spi_receive_bytes(info,35,IO);
+
+
+printf("\n\r");
+for(int i=0; i<35; i++){
+	printf("%c, ",info[i]);
+	if(i==18){
+		printf("\n\r");
+	}
+}
     while (1) 
     {		
+
 		//spi_transmit('x', IO);
 // 		k = spi_tranceive('x', IO);
 // 		printf("mainloop\n\r");
 // 		printf("k='%c'\r\n", (char)k);  
-// 		updateJoystick();
-// 		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
-// 		printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
+ 		//updateJoystick();
+ 		//printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
+ 		//printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
 	}
 }
 

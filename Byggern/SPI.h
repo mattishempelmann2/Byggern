@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "Adc.h"
 #include "avr/cpufunc.h"
+#include "util/delay.h"
 
 #ifndef SPI_H_
 #define SPI_H_
