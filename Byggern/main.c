@@ -5,6 +5,8 @@
  * Author : johankna
  */ 
 
+#define F_CPU 4915200
+
 #include <avr/io.h>
 #include "avr/iom162.h"
 #include "Uart.h"
@@ -13,6 +15,7 @@
 #include "Joystick.h"
 #include "Adc.h"
 #include "SPI.h"
+#include "util/delay.h"
 
 #define BAUD 9600 //Baud Rate
 #define FOSC 4915200 //Clock speed
@@ -31,16 +34,31 @@ int main(void)
 // 	spi_transmit('x', IO);
 // 	d = spi_receive(IO);
 // 	printf(d);
-	uint8_t k[10];
-	for(int i = 0; i < 10; i ++){
-		k[i] = 'A' + i;
-	}
-	
-	spi_tranceive_bytes(k, 10, IO);
-	
-	for(int i = 0; i < 10; i ++){
- 		printf("k='%c'\r\n", k[i]);
-	}
+// 	uint8_t k[10];
+// 	for(int i = 0; i < 10; i ++){
+// 		k[i] = 'A' + i;
+// 	}
+// 	
+// 	spi_tranceive_bytes(k, 10, IO);
+// 	
+// 	for(int i = 0; i < 10; i ++){
+//  		printf("k='%c'\r\n", k[i]);
+// 	}
+
+	PORTB &= ~(1 << PB4);
+	SPDR = 0x05;
+	while(!(SPSR & (1 << SPIF)));
+	clear_SPIF();
+	_delay_us(40);
+	SPDR = 0x05;
+	while(!(SPSR & (1 << SPIF)));
+	clear_SPIF();
+	_delay_us(10);
+	SPDR = 0x00;
+	while(!(SPSR & (1 << SPIF)));
+	clear_SPIF();
+	PORTB |= (1 << PB4);
+
 
 
 	

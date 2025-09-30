@@ -32,6 +32,10 @@ uint8_t spi_tranceive(uint8_t Data, enum slave SS);
 
 void spi_tranceive_bytes(volatile uint8_t* bytes, int size, enum slave SS);
 
+void spi_transmit_bytes(volatile uint8_t* bytes, int size, enum slave SS);
+
+void spi_receive_bytes(volatile uint8_t* bytes, int size, enum slave SS);
+
 
 
 

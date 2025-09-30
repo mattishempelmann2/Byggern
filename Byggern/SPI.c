@@ -10,8 +10,8 @@
 
 void init_SPI(){
 	SPCR |= (1 << SPE) | (1<<MSTR) | (1 << SPR0); // enable SPI og set som master
-	DDRB = (1 << PB5) | (1 << PB7) | (1 << PB4) | (1 << PB3) | (1 << PB2); // setter pb5 som output/MOSI pb7 som output/SCK, PB4. PB3, er SS PB2 er D!/C
-	PORTB |= (1  << PB4) | (1 << PB3);
+	DDRB = (1 << PB5) | (1 << PB7) | (1 << PB4) | (1 << PB3) | (1 << PB2) | (1 << PB1); // setter pb5 som output/MOSI pb7 som output/SCK, PB4. PB3, PB2, er SS PB1 er D!/C
+	PORTB |= (1  << PB4) | (1 << PB3) | (1 << PB2);
 	
 }
 
@@ -91,29 +91,24 @@ uint8_t spi_tranceive(uint8_t Data, enum slave SS){
 
 void spi_tranceive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	for(uint8_t i = 0; i < size; i++){
-		bytes[i] = spi_tranceive(bytes[i], SS);
-		bytes[i] ++;
+		bytes[i] = spi_tranceive(bytes[i], SS) + 1;
+	}
+	return;
+}
+
+void spi_transmit_bytes(volatile uint8_t* bytes, int size, enum slave SS){
+	for(uint8_t i = 0; i < size; i++){
+		spi_transmit(bytes[i], SS);
+		}
+	return;
+	};
+
+void spi_receive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
+	for(uint8_t i = 0; i < size; i++){
+		bytes[i] = spi_receive(SS);
 	}
 	return;
 }
 
 	
 
-
-
-//
-// void SPI_MasterInit(void)
-// {
-// 	/* Set MOSI and SCK output, all others input */
-// 	DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK);
-// 	/* Enable SPI, Master, set clock rate fck/16 */
-// 	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
-// }
-// void SPI_MasterTransmit(char cData)
-// {
-// 	/* Start transmission */
-// 	SPDR = cData;
-// 	/* Wait for transmission complete */
-// 	while(!(SPSR & (1<<SPIF)))
-// 	;
-// }
