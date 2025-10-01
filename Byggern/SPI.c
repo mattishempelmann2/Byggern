@@ -103,31 +103,22 @@ void spi_receive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	return;
 }
 
-void clear_PB4(enum slave SS){
-	if(SS == IO){
-		PORTB |= (1 << PB4);
-	}
-	else if(SS==DISPLAY){
-		PORTB |= (1 << PB3);
-	}
-}
-
-void select_slave(enum slave S) {
-	if (S == IO) {
+void select_slave(enum slave SS) {
+	if (SS == IO) {
 		PORTB &= ~(1 << PB4);
 		}
-	else if (S == DISPLAY) {
+	else if (SS == DISPLAY) {
 		PORTB &= ~(1 << PB3);
-	} else { deselect_slave(); }
+	}
 }
 
-void deselect_slave(enum slave S) {
-	if (S == IO) {
+void deselect_slave(enum slave SS) {
+	if (SS == IO) {
 		PORTB |= (1 << PB4);
 	}
-	else if (S == DISPLAY) {
+	else if (SS == DISPLAY) {
 		PORTB |= (1 << PB3);
-		} else { PORTB |= (1 << PB3) | (1 << PB4); }
+		} 
 }
 
 uint8_t spi_transfer(uint8_t data) {
@@ -147,5 +138,13 @@ void spi_read_bytes(uint8_t* data, uint16_t length){
 		data[i]=spi_read();
 		_delay_us(2);
 	}
+}
+
+
+void spi_receive(uint8_t command, enum slave SS, uint8_t* data, uint16_t length){
+	select_slave(SS);
+	spi_write(command);
+	spi_read_bytes(data, length);
+	deselect_slave(SS);
 }
 

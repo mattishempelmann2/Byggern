@@ -25,7 +25,7 @@ void init_SPI();
 
 void spi_transmit(uint8_t Data, enum slave SS);
 
-uint8_t spi_receive(enum slave SS);
+void spi_receive(uint8_t command, enum slave SS, uint8_t* data, uint16_t length);
 
 void clear_SPIF();
 

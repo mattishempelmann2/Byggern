@@ -50,27 +50,19 @@ int main(void)
 	uint8_t led_off = 0x00;
 	
 	uint8_t turn_on_led[] = {command, led_number, led_off};
-	//spi_transmit_bytes(turn_on_led,3,IO);
 	
 	command = 0x07;
-	select_slave(IO);
-	spi_write(command,IO);
 	uint8_t info[35];
-	spi_read_bytes(info, 35, IO);
-	deselect_slave(IO);
-	
-	//spi_transmit_bytes(&command, 1, IO);
-	////
-	//spi_receive_bytes(info,35,IO);
+	spi_receive(command, IO, info, 35);
 
 
-printf("\n\r");
-for(int i=0; i<35; i++){
-	printf("%c, ",info[i]);
-	if(i==18){
-		printf("\n\r");
+	printf("\n\r");
+	for(int i=0; i<35; i++){
+		printf("%c, ",info[i]);
+		if(i==18){
+			printf("\n\r");
+		}
 	}
-}
     while (1) 
     {		
 
