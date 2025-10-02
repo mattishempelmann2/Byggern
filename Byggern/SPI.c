@@ -79,27 +79,27 @@ void spi_transmit_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	for(uint8_t i = 0; i < size; i++){
 		spi_transmit(bytes[i], SS);
 			if (i==0){
-				_delay_us(40);
+				_delay_us(50);
 			}
 			else{
-				_delay_us(2);
+				_delay_us(5);
 			}
 		}
-		clear_PB4(SS);
+		deselect_slave(SS);
 	return;
 	};
 
 void spi_receive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
-	printf("\n\r");
-	for(uint8_t i = 0; i < size; i++){
-		uint8_t temp = spi_receive(SS);
-		printf("%c, ",temp);
-		bytes[i] = temp;
-		_delay_ms(20);
-		}
-		_delay_us(500);
-		clear_PB4(SS);
-		printf("\n\r");
+// 	printf("\n\r");
+// 	for(uint8_t i = 0; i < size; i++){
+// 		//uint8_t temp = spi_receive(SS);
+// 		printf("%c, ",temp);
+// 		bytes[i] = temp;
+// 		_delay_ms(20);
+// 		}
+// 		_delay_us(500);
+// 		clear_PB4(SS);
+// 		printf("\n\r");
 	return;
 }
 
@@ -136,7 +136,7 @@ uint8_t spi_read(void) { return spi_transfer(0x01); }
 void spi_read_bytes(uint8_t* data, uint16_t length){
 	for(uint16_t i = 0; i < length; i++){
 		data[i]=spi_read();
-		_delay_us(2);
+		_delay_us(5);
 	}
 }
 

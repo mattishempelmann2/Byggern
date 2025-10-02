@@ -50,19 +50,26 @@ int main(void)
 	uint8_t led_off = 0x00;
 	
 	uint8_t turn_on_led[] = {command, led_number, led_off};
+	spi_transmit_bytes(turn_on_led,3,IO);
 	
 	command = 0x07;
 	uint8_t info[35];
+	
 	spi_receive(command, IO, info, 35);
 
-
 	printf("\n\r");
-	for(int i=0; i<35; i++){
+	for(int i=0; i<19; i++){
 		printf("%c, ",info[i]);
-		if(i==18){
-			printf("\n\r");
-		}
 	}
+	printf("\n\r");
+	for(int i=19; i<35; i++){
+		printf("%d, ",info[i]);
+	}
+	
+// 	for(int i=0; i<3; i++){
+// 		printf("%d, ",info[i]);
+// 	}
+	
     while (1) 
     {		
 
