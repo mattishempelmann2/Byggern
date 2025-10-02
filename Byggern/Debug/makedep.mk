@@ -6,6 +6,8 @@ Adc.c
 
 Clock.c
 
+Display.c
+
 Joystick.c
 
 SPI.c

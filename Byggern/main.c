@@ -7,15 +7,8 @@
 
 #define F_CPU 4915200
 
-#include <avr/io.h>
-#include "avr/iom162.h"
-#include "Uart.h"
-#include "time.h"
-#include "SRAM.h"
-#include "Joystick.h"
-#include "Adc.h"
-#include "SPI.h"
-#include "util/delay.h"
+
+#include "Includes.h"
 
 #define BAUD 9600 //Baud Rate
 #define FOSC 4915200 //Clock speed
@@ -44,35 +37,39 @@ int main(void)
 // 	for(int i = 0; i < 10; i ++){
 //  		printf("k='%c'\r\n", k[i]);
 // 	}
-	uint8_t command = 0x05;
-	uint8_t led_number = 0x04;
-	uint8_t led_on = 0x01;
-	uint8_t led_off = 0x00;
-	
-	uint8_t turn_on_led[] = {command, led_number, led_off};
-	spi_transmit_bytes(turn_on_led,3,IO);
-	
-	command = 0x07;
-	uint8_t info[35];
-	
-	spi_receive(command, IO, info, 35);
-
-	printf("\n\r");
-	for(int i=0; i<19; i++){
-		printf("%c, ",info[i]);
-	}
-	printf("\n\r");
-	for(int i=19; i<35; i++){
-		printf("%d, ",info[i]);
-	}
-	
-// 	for(int i=0; i<3; i++){
+// 	uint8_t command = 0x05;
+// 	uint8_t led_number = 0x04;
+// 	uint8_t led_on = 0x01;
+// 	uint8_t led_off = 0x00;
+//  	
+//  	uint8_t turn_on_led[] = {command, led_number, led_on};
+//  	spi_write_bytes(turn_on_led,3,IO);
+// 	
+// 	command = 0x07;
+// 	uint8_t info[35];
+// 	spi_command_read(command, IO, info, 35);
+// 	
+// 	printf("\n\r");
+// 	for(int i=0; i<19; i++){
+// 		printf("%c, ",info[i]);
+// 	}
+// 	for(int i=19; i<35; i++){
 // 		printf("%d, ",info[i]);
 // 	}
 	
+	
+	
+	display_initialize();
+	display_clear();
+	display_SRAM();
+	display_print("abcd");
+	printf("\n\r");
+	printf("\n\r");
+	display_all_pages();
+	
     while (1) 
     {		
-
+		
 		//spi_transmit('x', IO);
 // 		k = spi_tranceive('x', IO);
 // 		printf("mainloop\n\r");
