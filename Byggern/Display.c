@@ -20,7 +20,16 @@ volatile uint8_t *ext_ram = (uint8_t *) 0x1400;
 uint8_t display_buffer[display_width];
 uint8_t display_page[display_width*2];
 
-void display_cmd(uint8_t* command, int size){	clearBit(PORTB, PB1);	spi_write_bytes(command, size, DISPLAY);}void display_data(uint8_t* data, int size){	setBit(PORTB, PB1);	spi_write_bytes(data, size, DISPLAY);}
+void display_cmd(uint8_t* command, int size){
+	clearBit(PORTB, PB1);
+	spi_write_bytes(command, size, DISPLAY);
+}
+
+void display_data(uint8_t* data, int size){
+	setBit(PORTB, PB1);
+	spi_write_bytes(data, size, DISPLAY);
+}
+
 
 void display_initialize(){
 	uint8_t display_off []= {0xae};
@@ -32,7 +41,6 @@ void display_initialize(){
 	uint8_t common_output []= {0xc8};
 	display_cmd(common_output,1);
 	
-	
 	uint8_t display_divide_array [] = {0xd5,0x80}; // display divide ratio and osc freq mode
 	display_cmd(display_divide_array,2);
 
@@ -42,11 +50,10 @@ void display_initialize(){
 	uint8_t pre_charge_array [] = {0xd9,0x21}; // pre charge and pre charge option
 	display_cmd(pre_charge_array,2);
 	
-
 	uint8_t memory_addressing_array [] = {0x20,0x02}; // memory adressing and memory adressing option, set to page adressing mode
 	display_cmd(memory_addressing_array,2);
 	
-	uint8_t page_start []= {0xb0}; // første page = 0
+	uint8_t page_start []= {0xb0}; // fï¿½rste page = 0
 	display_cmd(page_start,1);
 	
 	uint8_t RAM_content [] = {0xa4};
@@ -60,16 +67,107 @@ void display_initialize(){
 	
 }
 
+// Do the same as if we used the RES pin
+void display_reset(){ 
+	uint8_t display_off []= {0xae}; // dispaly off
+	display_cmd(display_off, sizeof(display_off));
+
+	uint8_t contrast_control_array [] = {0x81;,0x7F}; // contrast control, set to max
+	display_cmd(contrast_control_array,2);
+
+	uint8_t line_control_array [] = {0x40}; // start line to 0
+	display_cmd(line_control_array,1);
+
+	uint8_t normal_display [] = {0xa6}; // normal display
+	display_cmd(normal_display,1);
+
+	uint8_t segment_remap [] = {0xa0}; //normal map
+	display_cmd(segment_remap,1);
+
+	uint8_t common_output []= {0xc0};
+	display_cmd(common_output,1);
+
+	uint8_t page_start []= {0xb0}; // fï¿½rste page = 0
+	display_cmd(page_start,1);
+
+	uint8_t col_start []= {0x00}; // start column = 0
+	display_cmd(col_start,1);
+
+	uint8_t col_end []= {0x10}; // end column = last column
+	display_cmd(col_end,1);
+
+	uint8_t display_on []= {0xaf};
+	display_cmd(display_on,1);
+}
+
 void display_clear(){
 	for(int i = 0; i < 128; i++){
 			display_buffer[i] = 0x00;	
 	}
 
 	for(uint8_t j = 0; j < 8; j++){
-		uint8_t page_start []= {0xb0 | j}; // første page = 0
-		display_cmd(page_start,1);
-		display_data(display_buffer, sizeof(display_buffer));
+		uint8_t page_start []= {0xb0 | j}; // fï¿½rste page = 0
+		//display_cmd(page_start,1);
+		//display_data(display_buffer, sizeof(display_buffer));
+		display_clear_line(j);
 	}
+}
+
+void display_home() {
+
+}
+
+uint8_t display_validate_line(uint8_t line) {
+	if(line > 63 || line < 0) return -1;
+	if(line > 7) line = line/8;
+	return line;
+}
+
+void display_go_to_line(uint8_t line){
+	line = display_validate_line(line);
+	if(line == -1) return;
+	display_cmd(line,1);
+}
+
+void display_clear_line(uint8_t line){
+	display_go_to_line(line);
+	uint8_t clear_buffer[128];
+	for(int i = 0; i < 128; i++){
+		clear_buffer[i] = 0x00;	
+	}
+
+	display_data(clear_buffer, sizeof(display_buffer));
+}
+
+uint8_t diplay_validate_column(uint8_t column) {
+	if(column => 128 ||column < -1) return -1
+	return column;
+}
+
+void display_goto_column(int column) {
+	column = display_validate_column(column);
+	if (column == -1) return;
+	uint8_t msb = (column & 0xF0) >> 4;
+	uint8_t lsb = (column & 0x0F);
+	// Set the start and end positions for the nibbles
+	uint8_t command = (0x00 | lsb);
+	display_cmn(&command, 1);
+	uint8_t command = (0x00 | msb);
+	display_cmn(&command, 1);
+}
+
+void display_clear_column(int column) {
+	display_goto_column(column);
+	uint8_t clear_buffer = 0x00;
+
+	for(int i = 0; int < 8; i++){
+		display_goto_line(i);
+		display_data(&clear_buffer, 1);
+	}
+}
+
+void display_position(int row,int column) {
+
 }
 
 void display_print(char* letter) {
@@ -82,20 +180,18 @@ void display_print(char* letter) {
 	//display_data(ext_ram, 128);
 }
 
-
-
 void display_all_pages() {
 	for(int i = 0; i < 8; i++){
 		uint8_t page_start []= {0xb0 | i};
 		display_cmd(page_start,1);
 		for(int j = 0; j < 128; j++){
-			printf("%d",ext_ram[i*128+j]);
-			display_data(ext_ram[i*128+j], 128);
+			printf("%d",ext_ram[i*128]);
+			display_data(ext_ram[i*128], 128);
 		}
 	}
 }
 
-void display_SRAM(){
+void display_init_SRAM(){
 	SRAM_init();
 	uint16_t ext_ram_size = 0x400;
 	volatile uint8_t *ext_ram = (uint8_t *) 0x1400; // Start address for the SRAM
