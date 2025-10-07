@@ -20,55 +20,37 @@ int main(void)
 {	
 	UART_init(MYUBRR);
 	init_SPI();
-	//ADC_init();
-	//Calibrate_joystick();
-	
-// 	char d;
-// 	spi_transmit('x', IO);
-// 	d = spi_receive(IO);
-// 	printf(d);
-// 	uint8_t k[10];
-// 	for(int i = 0; i < 10; i ++){
-// 		k[i] = 'A' + i;
-// 	}
-// 	
-// 	spi_tranceive_bytes(k, 10, IO);
-// 	
-// 	for(int i = 0; i < 10; i ++){
-//  		printf("k='%c'\r\n", k[i]);
-// 	}
-// 	uint8_t command = 0x05;
-// 	uint8_t led_number = 0x04;
-// 	uint8_t led_on = 0x01;
-// 	uint8_t led_off = 0x00;
-//  	
-//  	uint8_t turn_on_led[] = {command, led_number, led_on};
-//  	spi_write_bytes(turn_on_led,3,IO);
-// 	
-// 	command = 0x07;
-// 	uint8_t info[35];
-// 	spi_command_read(command, IO, info, 35);
-// 	
-// 	printf("\n\r");
-// 	for(int i=0; i<19; i++){
-// 		printf("%c, ",info[i]);
-// 	}
-// 	for(int i=19; i<35; i++){
-// 		printf("%d, ",info[i]);
-// 	}
-	
+	ADC_init();
+	Calibrate_joystick();
 	
 	
 	display_initialize();
 	display_clear();
-	display_SRAM();
-	display_print("abcd");
-	printf("\n\r");
-	printf("\n\r");
+	display_init_SRAM();
+// 	display_print("hello",0);
+// 	display_all_pages();
+// 	
+// 	display_print("newlinetest",1);
+// 	display_all_pages();
+// 	
+// 	display_print("line4",3);
+// 	display_all_pages();
+	display_pixel_on(0,0);
+	display_pixel_on(127,0);
+	display_pixel_on(0,63);
+	display_pixel_on(127,63);
+	update_menu(3);
+	//draw_filled_circle(64,32,10);
+
 	display_all_pages();
 	
+	menu_pos menu;
+	menu.current_pos = 3;
+	update_menu(menu.current_pos);
     while (1) 
     {		
+		change_menu(&menu);
+		display_all_pages();
 		
 		//spi_transmit('x', IO);
 // 		k = spi_tranceive('x', IO);

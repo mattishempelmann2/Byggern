@@ -17,8 +17,6 @@ const unsigned char font4[95][4] PROGMEM;
 
 volatile uint8_t *ext_ram = (uint8_t *) 0x1400;
 
-uint8_t display_buffer[display_width];
-uint8_t display_page[display_width*2];
 
 void display_cmd(uint8_t* command, int size){
 	clearBit(PORTB, PB1);
@@ -65,6 +63,7 @@ void display_initialize(){
 	uint8_t display_on []= {0xaf};
 	display_cmd(display_on,1);
 	
+	display_go_to_column(0);
 }
 
 // Do the same as if we used the RES pin
@@ -72,7 +71,7 @@ void display_reset(){
 	uint8_t display_off []= {0xae}; // dispaly off
 	display_cmd(display_off, sizeof(display_off));
 
-	uint8_t contrast_control_array [] = {0x81;,0x7F}; // contrast control, set to max
+	uint8_t contrast_control_array [] = {0x81,0x7F}; // contrast control, set to max
 	display_cmd(contrast_control_array,2);
 
 	uint8_t line_control_array [] = {0x40}; // start line to 0
@@ -102,11 +101,11 @@ void display_reset(){
 
 void display_clear(){
 	for(int i = 0; i < 128; i++){
-			display_buffer[i] = 0x00;	
+			ext_ram[i] = 0x00;	
 	}
 
 	for(uint8_t j = 0; j < 8; j++){
-		uint8_t page_start []= {0xb0 | j}; // f�rste page = 0
+		//uint8_t page_start []= {0xb0 | j}; // f�rste page = 0
 		//display_cmd(page_start,1);
 		//display_data(display_buffer, sizeof(display_buffer));
 		display_clear_line(j);
@@ -119,14 +118,16 @@ void display_home() {
 
 uint8_t display_validate_line(uint8_t line) {
 	if(line > 63 || line < 0) return -1;
-	if(line > 7) line = line/8;
-	return line;
+	uint8_t page;
+	page = line/8;
+	return page;
 }
 
 void display_go_to_line(uint8_t line){
 	line = display_validate_line(line);
 	if(line == -1) return;
-	display_cmd(line,1);
+	uint8_t page_start []= {0xb0 | line};
+	display_cmd(page_start,1);
 }
 
 void display_clear_line(uint8_t line){
@@ -136,45 +137,46 @@ void display_clear_line(uint8_t line){
 		clear_buffer[i] = 0x00;	
 	}
 
-	display_data(clear_buffer, sizeof(display_buffer));
+	display_data(clear_buffer, sizeof(clear_buffer));
 }
 
-uint8_t diplay_validate_column(uint8_t column) {
-	if(column => 128 ||column < -1) return -1
+uint8_t display_validate_column(uint8_t column) {
+	if(column > 127 ||column < 0) return -1;
 	return column;
 }
 
-void display_goto_column(int column) {
+void display_go_to_column(uint8_t column) {
 	column = display_validate_column(column);
 	if (column == -1) return;
 	uint8_t msb = (column & 0xF0) >> 4;
 	uint8_t lsb = (column & 0x0F);
 	// Set the start and end positions for the nibbles
 	uint8_t command = (0x00 | lsb);
-	display_cmn(&command, 1);
-	uint8_t command = (0x00 | msb);
-	display_cmn(&command, 1);
+	display_cmd(&command, 1);
+	command = (0x10 | msb);
+	display_cmd(&command, 1);
 }
 
-void display_clear_column(int column) {
-	display_goto_column(column);
+void display_clear_column(uint8_t column) {
+	display_go_to_column(column);
 	uint8_t clear_buffer = 0x00;
 
-	for(int i = 0; int < 8; i++){
-		display_goto_line(i);
+	for(int i = 0; i < 8; i++){
+		display_go_to_line(i);
 		display_data(&clear_buffer, 1);
 	}
 }
 
-void display_position(int row,int column) {
+/* void display_position(uint8_t row,uint8_t column) {
 
-}
+} */
 
-void display_print(char* letter) {
+void display_print(char* letter, uint8_t page) {
+
 	for (int i = 0; i < strlen(letter); i++){
 		for (int j=0;j< 8;j++){
-			ext_ram[j+(8*i)] = pgm_read_byte(&font8[letter[i]-32][j]);
-			printf("%c",ext_ram[j+(8*i)]);
+			ext_ram[(page*128+(64-strlen(letter)*4))+j+(8*i)] = pgm_read_byte(&font8[letter[i]-32][j]);
+			//printf("%c",ext_ram[j+(8*i)]);
 		}
 	}
 	//display_data(ext_ram, 128);
@@ -184,10 +186,8 @@ void display_all_pages() {
 	for(int i = 0; i < 8; i++){
 		uint8_t page_start []= {0xb0 | i};
 		display_cmd(page_start,1);
-		for(int j = 0; j < 128; j++){
-			printf("%d",ext_ram[i*128]);
-			display_data(ext_ram[i*128], 128);
-		}
+		//printf("%c",ext_ram[i*128]);
+		display_data(&ext_ram[i*128], 128);
 	}
 }
 
@@ -199,6 +199,58 @@ void display_init_SRAM(){
 	for (uint16_t i = 0; i < ext_ram_size; i++) {
 		uint8_t some_value = 0xFF; // TO change
 		ext_ram[i] = 0;
+	}
+}
+
+void display_pixel_on(uint8_t x, uint8_t y){
+	uint8_t page = y/8;
+	uint8_t bit_in_page = y % 8;
+	ext_ram[(y/8)*128+x] |= (1 << bit_in_page);
+}
+
+void display_pixel_off(uint8_t x, uint8_t y){
+	uint8_t page = y/8;
+	uint8_t bit_in_page = y % 8;
+	ext_ram[(y/8)*128+x] &= ~(1 << bit_in_page);
+}
+
+void draw_filled_circle(uint8_t cx, uint8_t cy, uint8_t r){
+	for(int y = -r; y <= r; y++){
+		int dx = (int)(sqrt((double)(r*r-y*y)) + 0.5);
+		for(int x = -dx; x <= dx; x++) display_pixel_on(cx+x,cy+y);
+	}
+}
+
+display_invert_page(uint8_t page){
+	for (int i = 0; i < 128; i++){
+		ext_ram[page*128+i] = ~ext_ram[page*128+i];
+	}
+	
+}
+
+void update_menu(uint8_t page){
+	char *menu_items[] = {"start game", "quit"};
+	display_print("Welcome",0);
+	for(int i = 0; i < 2; i++){
+		display_print(menu_items[i],3+i);
+	}
+	display_invert_page(page);
+	
+}
+
+void change_menu(menu_pos* menu){
+	updateJoystick(); // make it only update if controller.dir is different from previous controller dir.
+	if(controller.dir == 0){
+		menu->previous_pos = menu->current_pos;
+		menu->current_pos --;
+		update_menu(menu->current_pos);
+		display_invert_page(menu->previous_pos);
+	}
+	if(controller.dir == 1){
+		menu->previous_pos = menu->current_pos;
+		menu->current_pos ++;
+		update_menu(menu->current_pos);
+		display_invert_page(menu->previous_pos);
 	}
 }
 
