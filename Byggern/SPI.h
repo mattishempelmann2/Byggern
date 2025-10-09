@@ -13,7 +13,7 @@
 #define SPI_H_
 
 enum slave{
-	IO, DISPLAY
+	IO, DISPLAY, CAN
 };
 
 

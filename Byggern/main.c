@@ -27,14 +27,7 @@ int main(void)
 	display_initialize();
 	display_clear();
 	display_init_SRAM();
-// 	display_print("hello",0);
-// 	display_all_pages();
-// 	
-// 	display_print("newlinetest",1);
-// 	display_all_pages();
-// 	
-// 	display_print("line4",3);
-// 	display_all_pages();
+	
 	display_pixel_on(0,0);
 	display_pixel_on(127,0);
 	display_pixel_on(0,63);
@@ -42,7 +35,6 @@ int main(void)
 	
 	char* main_items[] = {"Welcome" , " ", "start game", "quit"};
 	char* pause_items[] ={"Pause", " ","continue", "quit", "Highscore: 52"};
-	
 	menu main_menu;
 	main_menu.menu_items = main_items;
 	main_menu.length = 4;
@@ -51,38 +43,39 @@ int main(void)
 	pause_menu.length = 5;
 	
 	display_print_menu(2,pause_menu);
-	//draw_filled_circle(64,32,10);
 
 	display_all_pages();
 	
 	menu_pos menu_p;
 	menu_p.current_pos = 2;
 	
-
-
-	uint8_t values[3];
+	mcp2515_reset();
+	
+	uint8_t read[1];
+	uint8_t write[] = {0xFF};
+	uint8_t address = 0x30;
+		
+	mcp2515_read(read,address, 1);
+	printf("\n\r%d\n\r",read[0]);
+	mcp2515_bit_modify(0x30, 0x1, 0x1);
+	mcp2515_read(read,address, 1);
+	printf("%d,",read[0]);	
+	
 	
 
     while (1) 
     {	
-		int x = display_update_menu(&menu_p, pause_menu);
-		if(x != 0){
-			printf("menu pos is: %d	\n\r", x);
-		}
-		IO_button_init(values);
-		if(values[0] == 32) {
-			IO_button_on_leds(0);
-			_delay_ms(100);
-		}
-
 		
-		//spi_transmit('x', IO);
-// 		k = spi_tranceive('x', IO);
-// 		printf("mainloop\n\r");
-// 		printf("k='%c'\r\n", (char)k);  
- 		//updateJoystick();
- 		//printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
- 		//printf("Touchpad X pos: %d, Touchpad Y pos: %d \n\r", controller.touchpad_x, controller.touchpad_y);
+// 		int x = display_update_menu(&menu_p, pause_menu);
+// 		if(x != 0){
+// 			printf("menu pos is: %d	\n\r", x);
+// 		}
+// 		IO_button_init(values);
+// 		if(values[0] == 32) {
+// 			IO_button_on_leds(0);
+// 			_delay_ms(100);
+// 		}
 	}
+	
 }
 

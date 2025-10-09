@@ -22,6 +22,9 @@ void select_slave(enum slave SS) {
 	else if (SS == DISPLAY) {
 		PORTB &= ~(1 << PB3);
 	}
+	else if (SS==CAN){
+		PORTB &= ~(1<<PB2);
+	}
 }
 
 void deselect_slave(enum slave SS) {
@@ -31,44 +34,12 @@ void deselect_slave(enum slave SS) {
 	else if (SS == DISPLAY) {
 		PORTB |= (1 << PB3);
 	}
+	else if (SS==CAN){
+		PORTB |= (1<<PB2);
+	}
 }
 
 
-
-
-// 
-// uint8_t spi_tranceive(uint8_t Data, enum slave SS){
-// 	volatile uint8_t motatt;
-// 	static volatile uint8_t kast;
-// 	if( SS == IO){
-// 		PORTB &= ~(1 <<PB4);
-// 		SPDR = Data;
-// 		while(!(SPSR & (1 << SPIF)));
-// 		kast = SPSR;
-// 		motatt = SPDR;
-// 		PORTB |= (1 << PB4);
-// 		return motatt;
-// 		}
-// 	else if(SS == DISPLAY){
-// 		PORTB &= ~(1 <<PB3);
-// 		SPDR = Data;
-// 		while(!(SPSR & (1 << SPIF)));
-// 		kast = SPSR;
-// 		motatt = SPDR;
-// 		PORTB |= (1 << PB3);
-// 		return motatt;
-// 		}
-// 	return 'a';
-// 	}
-// 	
-// 
-// void spi_tranceive_bytes(volatile uint8_t* bytes, int size, enum slave SS){
-// 	for(uint8_t i = 0; i < size; i++){
-// 		bytes[i] = spi_tranceive(bytes[i], SS);
-// 	}
-// 	
-// 	return;
-// }
 
 void spi_write_bytes(volatile uint8_t* bytes, int size, enum slave SS){
 	select_slave(SS);

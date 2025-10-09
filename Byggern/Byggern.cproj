@@ -154,9 +154,6 @@
     <Compile Include="Display.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="fonts.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Includes.h">
       <SubType>compile</SubType>
     </Compile>
@@ -170,6 +167,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCP2515.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCP2515.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI.c">

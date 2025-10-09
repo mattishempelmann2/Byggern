@@ -1,4 +1,4 @@
-SPI.d SPI.o: .././SPI.c .././SPI.h .././Includes.h \
+MCP2515.d MCP2515.o: .././MCP2515.c .././MCP2515.h .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -22,9 +22,9 @@ SPI.d SPI.o: .././SPI.c .././SPI.h .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  .././Adc.h .././SRAM.h .././Clock.h .././Display.h .././Joystick.h \
- .././uart.h .././IO_board.h .././MCP2515.h
+ .././SPI.h .././uart.h .././IO_board.h
 
-.././SPI.h:
+.././MCP2515.h:
 
 .././Includes.h:
 
@@ -82,8 +82,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././Joystick.h:
 
+.././SPI.h:
+
 .././uart.h:
 
 .././IO_board.h:
-
-.././MCP2515.h:

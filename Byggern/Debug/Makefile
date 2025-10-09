@@ -42,6 +42,7 @@ C_SRCS +=  \
 ../Display.c \
 ../IO_board.c \
 ../Joystick.c \
+../MCP2515.c \
 ../SPI.c \
 ../SRAM.c \
 ../main.c \
@@ -60,6 +61,7 @@ Clock.o \
 Display.o \
 IO_board.o \
 Joystick.o \
+MCP2515.o \
 SPI.o \
 SRAM.o \
 main.o \
@@ -71,6 +73,7 @@ Clock.o \
 Display.o \
 IO_board.o \
 Joystick.o \
+MCP2515.o \
 SPI.o \
 SRAM.o \
 main.o \
@@ -82,6 +85,7 @@ Clock.d \
 Display.d \
 IO_board.d \
 Joystick.d \
+MCP2515.d \
 SPI.d \
 SRAM.d \
 main.d \
@@ -93,6 +97,7 @@ Clock.d \
 Display.d \
 IO_board.d \
 Joystick.d \
+MCP2515.d \
 SPI.d \
 SRAM.d \
 main.d \
@@ -141,6 +146,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./Joystick.o: .././Joystick.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./MCP2515.o: .././MCP2515.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
