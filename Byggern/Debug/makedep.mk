@@ -4,6 +4,8 @@
 
 Adc.c
 
+CAT.c
+
 Clock.c
 
 Display.c

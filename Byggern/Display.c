@@ -197,19 +197,18 @@ void display_init_SRAM(){
 	volatile uint8_t *ext_ram = (uint8_t *) 0x1400; // Start address for the SRAM
 	
 	for (uint16_t i = 0; i < ext_ram_size; i++) {
-		uint8_t some_value = 0xFF; // TO change
 		ext_ram[i] = 0;
 	}
 }
 
 void display_pixel_on(uint8_t x, uint8_t y){
-	uint8_t page = y/8;
+//	uint8_t page = y/8;
 	uint8_t bit_in_page = y % 8;
 	ext_ram[(y/8)*128+x] |= (1 << bit_in_page);
 }
 
 void display_pixel_off(uint8_t x, uint8_t y){
-	uint8_t page = y/8;
+//	uint8_t page = y/8;
 	uint8_t bit_in_page = y % 8;
 	ext_ram[(y/8)*128+x] &= ~(1 << bit_in_page);
 }

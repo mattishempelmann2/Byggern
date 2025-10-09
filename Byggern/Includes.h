@@ -23,6 +23,7 @@
 #include <avr/pgmspace.h>
 #include "time.h"
 #include "string.h"
+#include <avr/interrupt.h>
 
 
 #include "Adc.h"
@@ -34,6 +35,7 @@
 #include "uart.h"
 #include "IO_board.h"
 #include "MCP2515.h"
+#include "CAT.h"
 
 #define setBit(reg, bit) (reg |= (1<<bit))
 #define clearBit(reg, bit) (reg &= ~(1<<bit))

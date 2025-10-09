@@ -49,19 +49,12 @@ int main(void)
 	menu_pos menu_p;
 	menu_p.current_pos = 2;
 	
-	mcp2515_reset();
-	
-	uint8_t read[1];
-	uint8_t write[] = {0xFF};
-	uint8_t address = 0x30;
-		
-	mcp2515_read(read,address, 1);
-	printf("\n\r%d\n\r",read[0]);
-	mcp2515_bit_modify(0x30, 0x1, 0x1);
-	mcp2515_read(read,address, 1);
-	printf("%d,",read[0]);	
-	
-	
+	CAT_initialize();
+	CANMessage message;
+	message.id = 0;
+	uint8_t	data[] = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF};
+	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
+	CAT_write(message, 0); 
 
     while (1) 
     {	
