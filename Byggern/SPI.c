@@ -99,6 +99,7 @@ uint8_t spi_transfer(uint8_t data) {
 void spi_command_read(uint8_t command, enum slave SS, uint8_t* data, uint16_t length){
 	select_slave(SS);
 	spi_transfer(command);
+	_delay_us(50);
 	for(uint8_t i = 0; i < length; i++){
 		data[i] = spi_transfer(0x00);
 		_delay_us(5);

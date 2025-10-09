@@ -221,37 +221,60 @@ void draw_filled_circle(uint8_t cx, uint8_t cy, uint8_t r){
 	}
 }
 
-display_invert_page(uint8_t page){
+void display_invert_page(uint8_t page){
 	for (int i = 0; i < 128; i++){
 		ext_ram[page*128+i] = ~ext_ram[page*128+i];
 	}
 	
 }
 
-void update_menu(uint8_t page){
-	char *menu_items[] = {"start game", "quit"};
-	display_print("Welcome",0);
-	for(int i = 0; i < 2; i++){
-		display_print(menu_items[i],3+i);
+void display_print_menu(uint8_t page , menu menu_lines ){
+	for(int i = 0; i < menu_lines.length; i++){
+		display_print(menu_lines.menu_items[i],i);
 	}
 	display_invert_page(page);
-	
 }
 
-void change_menu(menu_pos* menu){
-	updateJoystick(); // make it only update if controller.dir is different from previous controller dir.
-	if(controller.dir == 0){
-		menu->previous_pos = menu->current_pos;
-		menu->current_pos --;
-		update_menu(menu->current_pos);
-		display_invert_page(menu->previous_pos);
+
+uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
+	updateJoystick();
+	if(joystick_btn_press()){
+		return menu_p->current_pos;
 	}
-	if(controller.dir == 1){
-		menu->previous_pos = menu->current_pos;
-		menu->current_pos ++;
-		update_menu(menu->current_pos);
-		display_invert_page(menu->previous_pos);
-	}
+	if(menu_p->previous_joystick_pos != controller.dir){
+		if(controller.dir == 0){
+			menu_p->previous_pos = menu_p->current_pos;
+			if(menu_p->current_pos > 2){
+				menu_p->current_pos --;
+			}
+			else{
+				menu_p->current_pos = menu_lines.length-1;
+				menu_p->previous_pos = 2;
+			}
+			display_invert_page(menu_p->previous_pos);
+			display_print_menu(menu_p->current_pos,menu_lines);
+	
+			menu_p->previous_joystick_pos = 0;
+		}
+		else if(controller.dir == 1){
+			menu_p->previous_pos = menu_p->current_pos;
+			if(menu_p->current_pos < menu_lines.length-1){
+				menu_p->current_pos ++;
+			}
+			else{
+				menu_p->current_pos = 2;
+				menu_p->previous_pos = menu_lines.length-1;
+			}
+			display_invert_page(menu_p->previous_pos);
+			display_print_menu(menu_p->current_pos,menu_lines);
+			menu_p->previous_joystick_pos = 1;
+		}
+		else if(controller.dir == 4){ // Neutral position
+			menu_p->previous_joystick_pos = 4;
+		}
+		}
+		display_all_pages();
+		return 0;
 }
 
 

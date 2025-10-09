@@ -160,6 +160,12 @@
     <Compile Include="Includes.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="IO_board.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="IO_board.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Joystick.c">
       <SubType>compile</SubType>
     </Compile>

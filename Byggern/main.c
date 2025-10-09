@@ -39,18 +39,42 @@ int main(void)
 	display_pixel_on(127,0);
 	display_pixel_on(0,63);
 	display_pixel_on(127,63);
-	update_menu(3);
+	
+	char* main_items[] = {"Welcome" , " ", "start game", "quit"};
+	char* pause_items[] ={"Pause", " ","continue", "quit", "Highscore: 52"};
+	
+	menu main_menu;
+	main_menu.menu_items = main_items;
+	main_menu.length = 4;
+	menu pause_menu;
+	pause_menu.menu_items = pause_items;
+	pause_menu.length = 5;
+	
+	display_print_menu(2,pause_menu);
 	//draw_filled_circle(64,32,10);
 
 	display_all_pages();
 	
-	menu_pos menu;
-	menu.current_pos = 3;
-	update_menu(menu.current_pos);
+	menu_pos menu_p;
+	menu_p.current_pos = 2;
+	
+
+
+	uint8_t values[3];
+	
+
     while (1) 
-    {		
-		change_menu(&menu);
-		display_all_pages();
+    {	
+		int x = display_update_menu(&menu_p, pause_menu);
+		if(x != 0){
+			printf("menu pos is: %d	\n\r", x);
+		}
+		IO_button_init(values);
+		if(values[0] == 32) {
+			IO_button_on_leds(0);
+			_delay_ms(100);
+		}
+
 		
 		//spi_transmit('x', IO);
 // 		k = spi_tranceive('x', IO);

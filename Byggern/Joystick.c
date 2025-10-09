@@ -13,6 +13,7 @@ void Calibrate_joystick(){
 
 	controller.y_zero = *p;
 	controller.x_zero = *(p+1);
+	joysick_button_init();
 }
 
 signed int joystick_to_percent(uint8_t verdi, uint8_t null){
@@ -74,3 +75,18 @@ void updateJoystick(){
 	
 	_NOP();
 }
+
+void joysick_button_init(){
+	DDRB &= ~(1 << PB0);
+	PORTB |= (1 << PB0);
+}
+
+int joystick_btn_press(){
+	if(PINB & (1 << PB0)){
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+

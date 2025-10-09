@@ -41,4 +41,8 @@ void updateJoystick();
 
 enum direction calc_direc(signed int x, signed int y);
 
+void joysick_button_init();
+
+int joystick_btn_press();
+
 #endif /* JOYSTICK_H_ */

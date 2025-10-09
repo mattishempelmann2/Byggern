@@ -1,4 +1,4 @@
-SPI.d SPI.o: .././SPI.c .././SPI.h .././Includes.h \
+IO_board.d IO_board.o: .././IO_board.c .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -22,9 +22,7 @@ SPI.d SPI.o: .././SPI.c .././SPI.h .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  .././Adc.h .././SRAM.h .././Clock.h .././Display.h .././Joystick.h \
- .././uart.h .././IO_board.h
-
-.././SPI.h:
+ .././SPI.h .././uart.h .././IO_board.h
 
 .././Includes.h:
 
@@ -81,6 +79,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././Display.h:
 
 .././Joystick.h:
+
+.././SPI.h:
 
 .././uart.h:
 

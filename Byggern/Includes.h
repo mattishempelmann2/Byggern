@@ -32,6 +32,7 @@
 #include "SPI.h"
 #include "SRAM.h"
 #include "uart.h"
+#include "IO_board.h"
 
 #define setBit(reg, bit) (reg |= (1<<bit))
 #define clearBit(reg, bit) (reg &= ~(1<<bit))

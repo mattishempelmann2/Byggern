@@ -51,17 +51,25 @@ void display_pixel_off(uint8_t x, uint8_t y);
 
 void draw_filled_circle(uint8_t cx, uint8_t cy, uint8_t r);
 
-display_invert_page(uint8_t page);
+void display_invert_page(uint8_t page);
 
-void update_menu(uint8_t page);
+
+typedef struct {
+	char **menu_items;
+	int length;
+}menu;
+
 
 typedef struct {
 	uint8_t current_pos;
 	uint8_t previous_pos;
+	uint8_t previous_joystick_pos;
 }menu_pos;
 
-void change_menu(menu_pos* menu);
 
+void display_print_menu(uint8_t page , menu menu_items );
+
+uint8_t display_update_menu(menu_pos* menu_p, menu menu_items);
 
 
 
