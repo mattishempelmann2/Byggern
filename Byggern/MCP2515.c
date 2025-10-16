@@ -9,19 +9,17 @@
 void mcp2515_read(uint8_t* data, uint8_t address, uint8_t length){
 	select_slave(CAN);
 	spi_transfer(MCP_READ);
-	_delay_us(50);
 	spi_command_read(address, CAN, data, length);
 	
 }
-void mcp2515_write(uint8_t* data,uint8_t address,uint8_t length){
+void mcp2515_write(uint8_t data, uint8_t address){
 	select_slave(CAN);
 	spi_transfer(MCP_WRITE);
-	_delay_us(50);
 	spi_transfer(address);
-	_delay_us(50);
-	spi_write_bytes(data,length,CAN);
-	
+	spi_transfer(data);
+	deselect_slave(CAN);
 }
+
 void mcp2515_request_to_send(uint8_t buffer_number){
 	uint8_t command;
 	switch (buffer_number)
@@ -71,42 +69,6 @@ void mcp2515_reset() {
 	_delay_ms(10);       
 }
 
-void mcp2515_load(CANMessage message, uint8_t address_point) {
-	// IF address_point is 000 = ID, if is 001 goes to data
-	// If addres_point is 01X indicates which buffer to use
-	uint8_t command = (0b01000000 | address_point);
-	uint8_t ID_high; uint8_t ID_low;
-	uint8_t DIR_register;
-	
-	ID_high	= message.id >> 3; 
-	ID_low = (message.id & 0b00000111) << 5;
-	
-	DIR_register = (message.data_length & 0b00001111);
-	select_slave(CAN);
-	spi_transfer(command);
-	spi_transfer(ID_high);
-	spi_transfer(ID_low);
-	// This is for standard ID (11 bits)
-	uint8_t extended_id[] = {0,0};
-	spi_write_bytes(extended_id,2,CAN);
-	
-	command = (0b01000000 | address_point+1);
-	select_slave(CAN);
-	spi_transfer(command);
-	spi_transfer(DIR_register);
-	spi_write_bytes(message.data,message.data_length,CAN);
-	deselect_slave(CAN);
-}
-
-// @params buffer_number: [0-1]
-// This problably wont work due to the change of the command_read in cs
-void mcp2515_read_rx(uint8_t buffer_number, uint8_t* output){
-	uint8_t command = 0b10010000 | (buffer_number << 1);
-	spi_command_read(command,CAN, output, 20);
-}
-
-
-
 void mcp2515_init ()
 {
 	mcp2515_reset ();
@@ -121,29 +83,44 @@ void mcp2515_init ()
 	_delay_ms(10);
 
 	// Disable the receive filtrers. It is only for debugging
-	uint8_t RBC0 = 0x60; // Receive buffer 0 controll address
+	uint8_t RBC0 = 0x60; // Receive buffer 0 control address
 	uint8_t RBC_mask = 0b01100000;
 	uint8_t RBC_data = 0b01100000;
 	mcp2515_bit_modify(RBC0, RBC_mask, RBC_data);
 	
-	uint8_t RBC1 = 0x70; // Receive buffer 1 controll address
+	uint8_t EI = 0b01100000; // Extended id
+	//mcp2515_bit_modify(M, EI, Ei);
+	
+	
+	uint8_t RBC1 = 0x70; // Receive buffer 1 control address
 	mcp2515_bit_modify(RBC1, RBC_mask, RBC_data);
-	
-	
-	
 
 	//
 	//	INTERRUPTIONS
 	//
 	
-	// Clean first if there were any interruptions before
-	uint8_t IF_data = 0;
-	mcp2515_write(IF_data, MCP_CANINTE, 1);
+// 	Clean first if there were any interruptions before
+//	uint8_t IF_data = 0;
+//	mcp2515_write(IF_data, MCP_CANINTE, 1);
 	
-	uint8_t TE_mask = 0b00000011;
+	//uint8_t TE_mask = 0b00000011;
+	uint8_t TE_mask = 0xFF;
 	uint8_t TE_data = TE_mask;
 	mcp2515_bit_modify(MCP_CANINTE, TE_mask, TE_data);
+	
+	//
+	//	CNF
+	//
 
+	uint8_t CNF1_data = 0x00;
+	mcp2515_write(CNF1_data, MCP_CNF1);
+	
+	uint8_t CNF2_data = 0x98;
+	mcp2515_write(CNF2_data, MCP_CNF2);
+	
+	uint8_t CNF3_data = 0x01;
+	mcp2515_write(CNF3_data, MCP_CNF3);
+		
 	// Set the mode to Loopback: REMOVE AFTER EXERCISES
 	CCR = 0x0F; // can_controll_register 
 	CCR_mask = 0b11100000;

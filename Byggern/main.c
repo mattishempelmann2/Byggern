@@ -51,28 +51,16 @@ int main(void)
 	
 	CAN_initialize();
 	CANMessage message;
-	message.id = 0;
-	uint8_t	data[] = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF};
+	message.id = 2047;
+	uint8_t	data[] = {0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x03, 0xFF};
+	message.data_length = 8;
 	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
 	CAN_write(1, message); 
-	
-	void clear_all_interrupts() {
-		uint8_t flags;
-		mcp2515_read(&flags, MCP_CANINTF, 1);
-		mcp2515_bit_modify(MCP_CANINTF, flags, 0x00); // clear all set bits
-	}
 
 
     while (1) 
-    {	
-		uint8_t flags;
-		mcp2515_read(&flags, MCP_CANINTF, 1);
-		printf("CANINTF: 0x%02X\n\r", flags);
-		if (flags) {
-			mcp2515_bit_modify(MCP_CANINTF, flags, 0x00);
-			//clear_all_interrupts();
-		}
-		_delay_ms(500);
+    {
+		//_delay_ms(500);
 		
 // 		int x = display_update_menu(&menu_p, pause_menu);
 // 		if(x != 0){
