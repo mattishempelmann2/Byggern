@@ -6,7 +6,6 @@
  */ 
 #include "Includes.h"
 
-// @params buffer_num: 
 void CAN_write(uint8_t buffer_number, CANMessage message) {
 	uint8_t command = 0;
 	switch(buffer_number){

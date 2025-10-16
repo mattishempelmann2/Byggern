@@ -15,7 +15,7 @@
 #define MYUBRR 31
 
 
-
+//Remember callback interrup tips from the TA
 int main(void)
 {	
 	UART_init(MYUBRR);
