@@ -1,5 +1,5 @@
 /*
- * CAT.h
+ * CAN.h
  *
  * Created: 09.10.2025 16:52:27
  *  Author: johankna
@@ -7,8 +7,8 @@
 #include "Includes.h"
 
 
-#ifndef CAT_H_
-#define CAT_H_
+#ifndef CAN_H_
+#define CAN_H_
 
 typedef struct {
 	uint16_t id;
@@ -17,12 +17,12 @@ typedef struct {
 	uint8_t data[8];
 } CANMessage;
 
-void CAN_write();
+void CAN_write(uint8_t buffer_number, CANMessage message);
 
-void CAN_read();
-
-void CAT_initialize();
+void CAN_initialize();
 
 ISR(INT0_vect);
+
+void CAN_receive(CANMessage *message);
 
 #endif

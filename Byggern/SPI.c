@@ -39,6 +39,12 @@ void deselect_slave(enum slave SS) {
 	}
 }
 
+volatile char spi_read(){
+	SPDR = 0;
+	while(!(SPSR & (1<<SPIF)));
+	return SPDR;
+}
+
 
 
 void spi_write_bytes(volatile uint8_t* bytes, int size, enum slave SS){
@@ -78,3 +84,15 @@ void spi_command_read(uint8_t command, enum slave SS, uint8_t* data, uint16_t le
 	deselect_slave(SS);
 }
 
+void spi_write_bytes_no_slave(volatile uint8_t* bytes, int size){
+	for(uint8_t i = 0; i < size; i++){
+		spi_transfer(bytes[i]);
+		if (i==0){
+			_delay_us(50);
+		}
+		else{
+			_delay_us(5);
+		}
+	}
+	return;
+};

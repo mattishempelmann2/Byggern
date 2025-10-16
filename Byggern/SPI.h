@@ -42,9 +42,11 @@ uint8_t spi_transfer(uint8_t data);
 
 void spi_write(uint8_t data);
 
-uint8_t spi_read(void);
+volatile char spi_read();
 
 void spi_read_bytes(uint8_t* data, uint16_t length);
+
+void spi_write_bytes_no_slave(volatile uint8_t* bytes, int size);
 
 
 

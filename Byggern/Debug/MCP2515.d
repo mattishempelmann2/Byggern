@@ -23,7 +23,7 @@ MCP2515.d MCP2515.o: .././MCP2515.c .././MCP2515.h .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  .././Adc.h .././SRAM.h .././Clock.h .././Display.h .././Joystick.h \
- .././SPI.h .././uart.h .././IO_board.h .././CAT.h
+ .././SPI.h .././uart.h .././IO_board.h .././CAN.h
 
 .././MCP2515.h:
 
@@ -91,4 +91,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././IO_board.h:
 
-.././CAT.h:
+.././CAN.h:

@@ -142,10 +142,10 @@
     <Compile Include="Adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAT.c">
+    <Compile Include="CAN.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAT.h">
+    <Compile Include="CAN.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Clock.c">

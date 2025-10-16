@@ -49,15 +49,30 @@ int main(void)
 	menu_pos menu_p;
 	menu_p.current_pos = 2;
 	
-	CAT_initialize();
+	CAN_initialize();
 	CANMessage message;
 	message.id = 0;
 	uint8_t	data[] = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF};
 	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
-	CAT_write(message, 0); 
+	CAN_write(1, message); 
+	
+	void clear_all_interrupts() {
+		uint8_t flags;
+		mcp2515_read(&flags, MCP_CANINTF, 1);
+		mcp2515_bit_modify(MCP_CANINTF, flags, 0x00); // clear all set bits
+	}
+
 
     while (1) 
     {	
+		uint8_t flags;
+		mcp2515_read(&flags, MCP_CANINTF, 1);
+		printf("CANINTF: 0x%02X\n\r", flags);
+		if (flags) {
+			mcp2515_bit_modify(MCP_CANINTF, flags, 0x00);
+			//clear_all_interrupts();
+		}
+		_delay_ms(500);
 		
 // 		int x = display_update_menu(&menu_p, pause_menu);
 // 		if(x != 0){

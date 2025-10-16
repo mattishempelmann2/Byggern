@@ -23,7 +23,7 @@ IO_board.d IO_board.o: .././IO_board.c .././Includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  .././Adc.h .././SRAM.h .././Clock.h .././Display.h .././Joystick.h \
- .././SPI.h .././uart.h .././IO_board.h .././MCP2515.h .././CAT.h
+ .././SPI.h .././uart.h .././IO_board.h .././MCP2515.h .././CAN.h
 
 .././Includes.h:
 
@@ -91,4 +91,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././MCP2515.h:
 
-.././CAT.h:
+.././CAN.h:
