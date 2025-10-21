@@ -136,72 +136,75 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Adc.c">
+    <Compile Include="Node1\Adc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Adc.h">
+    <Compile Include="Node1\Adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAN.c">
+    <Compile Include="Node1\CAN.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAN.h">
+    <Compile Include="Node1\CAN.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Clock.c">
+    <Compile Include="Node1\Clock.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Clock.h">
+    <Compile Include="Node1\Clock.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Display.c">
+    <Compile Include="Node1\Display.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Display.h">
+    <Compile Include="Node1\Display.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Includes.h">
+    <Compile Include="Node1\Includes.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="IO_board.c">
+    <Compile Include="Node1\IO_board.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="IO_board.h">
+    <Compile Include="Node1\IO_board.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Joystick.c">
+    <Compile Include="Node1\Joystick.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Joystick.h">
+    <Compile Include="Node1\Joystick.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCP2515.c">
+    <Compile Include="Node1\main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCP2515.h">
+    <Compile Include="Node1\MCP2515.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.c">
+    <Compile Include="Node1\MCP2515.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.h">
+    <Compile Include="Node1\SPI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.h">
+    <Compile Include="Node1\SPI.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.c">
+    <Compile Include="Node1\SRAM.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="main.c">
+    <Compile Include="Node1\SRAM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Uart.c">
+    <Compile Include="Node1\Uart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Uart.h">
+    <Compile Include="Node1\Uart.h">
       <SubType>compile</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Node1" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

@@ -2,25 +2,15 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-Node1\Adc.c
+can.c
 
-Node1\CAN.c
+Device_Startup\startup_sam3xa.c
 
-Node1\Clock.c
+Device_Startup\system_sam3xa.c
 
-Node1\Display.c
+main.c
 
-Node1\IO_board.c
+time.c
 
-Node1\Joystick.c
-
-Node1\main.c
-
-Node1\MCP2515.c
-
-Node1\SPI.c
-
-Node1\SRAM.c
-
-Node1\Uart.c
+uart.c
 
