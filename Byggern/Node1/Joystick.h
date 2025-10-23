@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "Adc.h"
 #include "avr/cpufunc.h"
+#include "Includes.h"
 
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
@@ -37,12 +38,15 @@ void Calibrate_joystick();
 
 signed int joystick_to_percent(uint8_t verdi, uint8_t null);
 
-void updateJoystick();
+volatile void updateJoystick();
 
 enum direction calc_direc(signed int x, signed int y);
 
 void joysick_button_init();
 
 int joystick_btn_press();
+
+volatile void Joystick_CAN();
+
 
 #endif /* JOYSTICK_H_ */

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "includes.h"
 
 // Struct with bit timing information
 // See `can_init` for usage example
@@ -71,7 +72,7 @@ struct Byte8 {
 //    // Should print: CanMsg(id:1, length:7, data:{10, 0, 20, 0, 0, 240, 193})
 typedef struct CanMsg CanMsg;
 struct CanMsg {
-    uint8_t id;
+    uint16_t id;
     uint8_t length;
     union {
         uint8_t     byte[8];

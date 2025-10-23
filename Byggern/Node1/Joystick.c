@@ -61,7 +61,7 @@ enum direction calc_direction(signed int x, signed int y){
 	return CENTER;
 };
 
-void updateJoystick(){
+volatile void updateJoystick(){
 	volatile uint8_t *p = adc_read();
 	
 	controller.y_int = *p;
@@ -88,5 +88,23 @@ int joystick_btn_press(){
 	else{
 		return 1;
 	}
+}
+
+volatile void Joystick_CAN(){
+	CANMessage joystick;
+	joystick.id = 0;
+	joystick.data_length = 7;
+	joystick.data[0] = controller.x_zero;
+	joystick.data[1] = controller.y_zero;
+	joystick.data[2] = controller.x_int;
+	joystick.data[3] = controller.y_int;
+	joystick.data[4] = controller.x_prosent;
+	joystick.data[5] = controller.y_prosent;
+	joystick.data[6] = controller.dir;
+	CAN_write(0,joystick);
+	for(int i = 0; i<7;i++){
+		printf("%d, ",joystick.data[i]);
+	}
+	printf("\n\r");
 }
 

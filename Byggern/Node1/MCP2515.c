@@ -112,13 +112,13 @@ void mcp2515_init ()
 	//	CNF
 	//
 
-	uint8_t CNF1_data = 0x00;
+	uint8_t CNF1_data = 0x07;
 	mcp2515_write(CNF1_data, MCP_CNF1);
 	
-	uint8_t CNF2_data = 0x98;
+	uint8_t CNF2_data = 0x92;
 	mcp2515_write(CNF2_data, MCP_CNF2);
 	
-	uint8_t CNF3_data = 0x01;
+	uint8_t CNF3_data = 0x02;
 	mcp2515_write(CNF3_data, MCP_CNF3);
 		
 	// Set the mode to Loopback: REMOVE AFTER EXERCISES

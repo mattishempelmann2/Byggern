@@ -55,6 +55,7 @@ void uart_init(uint32_t cpufreq, uint32_t baudrate){
 
     // Enable UART interrupt in the Nested Vectored Interrupt Controller (NVIC)
     NVIC_EnableIRQ((IRQn_Type) ID_UART);
+	//fdevopen(uart_tx, uart_rx);
     
 }    
 
@@ -175,4 +176,15 @@ int _read(int file, char* ptr, int len){
 }
 
 
-   
+static inline char nyb_to_hex(uint8_t n){
+	n &= 0xF; return (n < 10) ? ('0' + n) : ('A' + (n - 10));
+}
+
+void uart_send_u32_hex(uint32_t x){
+	uart_tx('0'); uart_tx('x');
+	for (int i = 7; i >= 0; --i){
+		uint8_t nyb = (x >> (i*4)) & 0xF;
+		uart_tx((uint8_t)nyb_to_hex(nyb));
+	}
+	uart_tx('\r'); uart_tx('\n');
+}

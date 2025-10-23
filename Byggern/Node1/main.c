@@ -50,21 +50,26 @@ int main(void)
 	menu_p.current_pos = 2;
 	
 	CAN_initialize();
-	CANMessage message;
-	message.id = 2047;
-	uint8_t	data[] = {0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x03, 0xFF};
-	message.data_length = 8;
-	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
-	CAN_write(1, message); 
-
-
+// 	CANMessage message;
+// 	message.id = 0;
+// 	uint8_t	data[] = {'3', '4', '5', 'c', 'd', 'e', 'f', 'z'};
+// 	message.data_length = 8;
+// 	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
+// 	CAN_write(1, message);
+	printf("menu pos is:	\n\r");
+	
     while (1) 
     {
+		updateJoystick();
+		Joystick_CAN();
+
+		//CAN_write(1, message);
+
 		//_delay_ms(500);
 		
 // 		int x = display_update_menu(&menu_p, pause_menu);
 // 		if(x != 0){
-// 			printf("menu pos is: %d	\n\r", x);
+// 			
 // 		}
 // 		IO_button_init(values);
 // 		if(values[0] == 32) {

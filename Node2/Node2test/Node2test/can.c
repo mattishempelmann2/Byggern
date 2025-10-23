@@ -2,6 +2,7 @@
 #include "sam.h"
 #include "can.h"
 #include <stdio.h>
+#include "includes.h"
 
 void can_printmsg(CanMsg m){
     printf("CanMsg(id:%d, length:%d, data:{", m.id, m.length);
@@ -90,46 +91,54 @@ void can_tx(CanMsg m){
 uint8_t can_rx(CanMsg* m){
     if(!(CAN0->CAN_MB[rxMailbox].CAN_MSR & CAN_MSR_MRDY)){
         return 0;
-    }
-
+   }
     // Get message ID
     m->id = (uint8_t)((CAN0->CAN_MB[rxMailbox].CAN_MID & CAN_MID_MIDvA_Msk) >> CAN_MID_MIDvA_Pos);
+	//printf("%", (unsigned long)m->id);
         
     // Get data length
     m->length = (uint8_t)((CAN0->CAN_MB[rxMailbox].CAN_MSR & CAN_MSR_MDLC_Msk) >> CAN_MSR_MDLC_Pos);
+
+	//printf("%lu\r\n", (unsigned long)m->length);
     
     // Get data from CAN mailbox
     m->dword[0] = CAN0->CAN_MB[rxMailbox].CAN_MDL;
     m->dword[1] = CAN0->CAN_MB[rxMailbox].CAN_MDH;
-                
+	for(int i = 0;  i < m->length; i++) {
+		printf("%d, ", (int)m->byte[i]);
+	}
     // Reset for new receive
     CAN0->CAN_MB[rxMailbox].CAN_MMR = CAN_MMR_MOT_MB_RX;
     CAN0->CAN_MB[rxMailbox].CAN_MCR |= CAN_MCR_MTCR;
+	printf("\n\r");
+
     return 1;
 }
     
     
 
     
-/*
+
 // Example CAN interrupt handler
-void CAN0_Handler(void){
-    char can_sr = CAN0->CAN_SR; 
-    
-    // RX interrupt
-    if(can_sr & (1 << rxMailbox)){
-        // Add your message-handling code here
-        can_printmsg(can_rx());
-    } else {
-        printf("CAN0 message arrived in non-used mailbox\n\r");
-    }
-    
-    if(can_sr & CAN_SR_MB0){
-        // Disable interrupt
-        CAN0->CAN_IDR = CAN_IER_MB0;
-    }
-    
-    NVIC_ClearPendingIRQ(ID_CAN0);
-} 
-*/
+// void CAN0_Handler(void){
+//     char can_sr = CAN0->CAN_SR; 
+//     
+//     // RX interrupt
+//     if(can_sr & (1 << rxMailbox)){
+//         // Add your message-handling code here
+// 		CanMsg* values;
+// 		can_rx(values);
+//         can_printmsg(&values);
+//     } else {
+//         printf("CAN0 message arrived in non-used mailbox\n\r");
+//     }
+//     
+//     if(can_sr & CAN_SR_MB0){
+//         // Disable interrupt
+//         CAN0->CAN_IDR = CAN_IER_MB0;
+//     }
+//     
+//     NVIC_ClearPendingIRQ(ID_CAN0);
+// } 
+
 

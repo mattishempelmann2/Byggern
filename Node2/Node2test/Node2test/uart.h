@@ -34,4 +34,9 @@ uint8_t uart_rx(uint8_t* val);
 //    }
 int uart_flush(char* buf, int len);
 
+void uart_send_u32_hex(uint32_t x);
+
+static inline char nyb_to_hex(uint8_t n);
+
+
    

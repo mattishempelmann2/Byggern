@@ -14,6 +14,9 @@
 #include "uart.h"
 #include "can.h"
 #include "sam.h"
+#include <stdio.h>
+
+
 
 
 #endif /* INCLUDES_H_ */

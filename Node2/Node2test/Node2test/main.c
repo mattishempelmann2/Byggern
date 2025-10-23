@@ -24,15 +24,56 @@ int main(void)
 	PIOB->PIO_SODR = (1u << 13); // sets pin high
 
 	uart_init(F_CPU, 9600);
-	uint8_t value = 'a';
-	uint8_t tall = 1;
-	uart_tx(value);
+ 	uint8_t value = 'a';
+// 	uint8_t tall = 1;
+ 	uart_tx(value);
+// 	
+	CanInit can100kbit_84MHz = {
+		.phase2 = 2,
+		.propag = 2,
+		.phase1 = 2,
+		.sjw = 0,
+		.brp = 83,
+		.smp = 0
+	};
 	
+	can_init(can100kbit_84MHz,0);
+	CanMsg msg;
+	 
+	msg.id = 0;
+	msg.length = 8;
+	msg.byte[0] = 0x11;
+	msg.byte[1] = 0x22;
+	msg.byte[2] = 0x33;
+	msg.byte[3] = 0x44;
+	msg.byte[4] = 0x55;
+	msg.byte[5] = 0x66;
+	msg.byte[6] = 0x77;
+	msg.byte[7] = 0x88;
+	//can_tx(msg);
+	
+	
+ 	CanMsg test;
+ 	/*can_rx(&test);*/
+// 	
+// 	 if(test.length){
+// 		 uart_tx(test.byte[0]);
+// 	 }
+ 	 for(uint8_t i = 0; i < test.length; i++){
+ 		 uart_tx(test.byte[i]);
+ 	 }
+	 uint32_t status = CAN0->CAN_SR;
+	 uart_send_u32_hex(status);
+	 uint32_t* statu = 0x400B020;
+	 uart_send_u32_hex(&statu);
+	 //printf(&status);
 
     while (1) 
-    {
-        if (uart_rx(&value)){    
-	        uart_tx(value);
-        }
+    {  
+		can_rx(&test);
+		//for(uint8_t i = 0; i < test.length; i++){
+			 //uart_tx(test.byte[i]);
+		 //}
+       // printf("while loop\n\r");
 	}
 }
