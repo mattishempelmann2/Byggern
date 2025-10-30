@@ -13,8 +13,7 @@
 
 #ifndef JOYSTICK_H_
 #define JOYSTICK_H_
-#define ADC_MIN 66
-#define ADC_MAX 245
+
 
 enum direction{
 	UP, DOWN, LEFT, RIGHT, CENTER
@@ -30,19 +29,23 @@ typedef struct Controller{
 	volatile enum direction dir;
 	volatile uint8_t touchpad_x;
 	volatile uint8_t touchpad_y	;
+	uint8_t x_min_seen;
+	uint8_t x_max_seen;
+	uint8_t y_min_seen;
+	uint8_t y_max_seen;
 } Controller ;
 
 Controller controller;
 
 void Calibrate_joystick();
 
-signed int joystick_to_percent(uint8_t verdi, uint8_t null);
+signed int joystick_to_percent(uint8_t verdi, uint8_t null, uint8_t min_seen, uint8_t max_seen);
 
 volatile void updateJoystick();
 
 enum direction calc_direc(signed int x, signed int y);
 
-void joysick_button_init();
+void joystick_button_init();
 
 int joystick_btn_press();
 

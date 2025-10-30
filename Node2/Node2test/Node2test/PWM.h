@@ -1,0 +1,28 @@
+/*
+ * PWM.h
+ *
+ * Created: 30.10.2025 08:38:54
+ *  Author: mattisjh
+ */ 
+
+#include "includes.h"
+
+#ifndef PWM_H_
+#define PWM_H_
+#define duty_cycle_max = 11;
+
+void disable_watchdog();
+
+
+void PWM_init();
+
+uint8_t joystick_to_percent(uint8_t verdi);
+
+void set_duty_cycle(uint32_t duty_cycle);
+
+void set_duty_joystick(uint8_t x_pos, uint8_t y_pos);
+
+
+
+
+#endif /* PWM_H_ */

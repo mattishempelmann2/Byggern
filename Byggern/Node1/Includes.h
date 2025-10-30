@@ -8,6 +8,7 @@
 
 #ifndef F_CPU
 #define F_CPU 4915200
+#define edgemargin 4
 #endif
 
 #ifndef INCLUDES_H_

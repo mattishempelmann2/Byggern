@@ -13,21 +13,21 @@ int main(void)
 {
     /* Initialize the SAM system */
     SystemInit();
-	PMC->PMC_PCER0 = (1u << ID_PIOB); // enables PIOB clock
+// 	PMC->PMC_PCER0 = (1u << ID_PIOB); // enables PIOB clock
+// 	
+// 	PIOB->PIO_PER = (1u << 13); //PB13 to GPIO
+// 	
+// 	PIOB->PIO_OER   = (1u << 13); // configure as output
+// 	PIOB->PIO_PUDR  = (1u << 13); // disables pull up                   
+// 	PIOB->PIO_MDDR  = (1u << 13); // push-pull
+// 	
+// 	PIOB->PIO_SODR = (1u << 13); // sets pin high
 	
-	PIOB->PIO_PER = (1u << 13); //PB13 to GPIO
-	
-	PIOB->PIO_OER   = (1u << 13); // configure as output
-	PIOB->PIO_PUDR  = (1u << 13); // disables pull up                   
-	PIOB->PIO_MDDR  = (1u << 13); // push-pull
-	
-	PIOB->PIO_SODR = (1u << 13); // sets pin high
-
+	disable_watchdog();
 	uart_init(F_CPU, 9600);
  	uint8_t value = 'a';
-// 	uint8_t tall = 1;
  	uart_tx(value);
-// 	
+	
 	CanInit can100kbit_84MHz = {
 		.phase2 = 2,
 		.propag = 2,
@@ -54,23 +54,15 @@ int main(void)
 	
 	
  	CanMsg test;
- 	/*can_rx(&test);*/
-// 	
-// 	 if(test.length){
-// 		 uart_tx(test.byte[0]);
-// 	 }
- 	 for(uint8_t i = 0; i < test.length; i++){
- 		 uart_tx(test.byte[i]);
- 	 }
-	 uint32_t status = CAN0->CAN_SR;
-	 uart_send_u32_hex(status);
-	 uint32_t* statu = 0x400B020;
-	 uart_send_u32_hex(&statu);
-	 //printf(&status);
-
+	PWM_init();
+	ADC_init();
     while (1) 
     {  
+		//uint32_t a = ;
+		//uart_send_u32_hex(a);
+		printf("ADC SIGNAL: %d`\n\r", adc_read());
 		can_rx(&test);
+		set_duty_joystick(test.byte[2], test.byte[3]);
 		//for(uint8_t i = 0; i < test.length; i++){
 			 //uart_tx(test.byte[i]);
 		 //}
