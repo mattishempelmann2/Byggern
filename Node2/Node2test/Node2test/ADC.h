@@ -13,6 +13,8 @@ void ADC_init();
 
 uint16_t adc_read();
 
+uint16_t count_score(uint16_t* previous_result);
+
 
 
 

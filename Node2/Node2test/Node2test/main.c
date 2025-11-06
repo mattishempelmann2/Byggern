@@ -56,16 +56,27 @@ int main(void)
  	CanMsg test;
 	PWM_init();
 	ADC_init();
+	
+	uint16_t score = 0;
+	uint16_t previous_result;
+	previous_result = 0;
     while (1) 
     {  
 		//uint32_t a = ;
 		//uart_send_u32_hex(a);
-		printf("ADC SIGNAL: %d`\n\r", adc_read());
+		if (count_score(&previous_result)){
+			score = score +1;
+			previous_result = 1;
+		}
+		
+		//printf("ADC SIGNAL: %d`\n\r", adc_read());
+		
+		printf("Current score: %d \n\r", score);
 		can_rx(&test);
 		set_duty_joystick(test.byte[2], test.byte[3]);
-		//for(uint8_t i = 0; i < test.length; i++){
-			 //uart_tx(test.byte[i]);
-		 //}
-       // printf("while loop\n\r");
+// 		for(uint8_t i = 0; i < test.length; i++){
+// 			 uart_tx(test.byte[i]);
+// 		 }
+//        printf("while loop\n\r");
 	}
 }
