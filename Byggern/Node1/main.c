@@ -76,8 +76,8 @@ int main(void)
 // 			IO_button_on_leds(0);
 // 			_delay_ms(100);
 // 		}
-		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d", controller.x_prosent, controller.y_prosent, controller.dir);
-		printf("Joystick X pos: %d, Joystick Y pos: %d\n\r", controller.x_int, controller.y_int);
+		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
+		//printf("Joystick X pos: %d, Joystick Y pos: %d\n\r", controller.x_int, controller.y_int);
 
 		_delay_ms(100);
 	}

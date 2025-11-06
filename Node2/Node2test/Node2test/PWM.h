@@ -18,11 +18,16 @@ void PWM_init();
 
 uint8_t joystick_to_percent(uint8_t verdi);
 
-void set_duty_cycle(uint32_t duty_cycle);
+void set_duty_cycle_x(uint32_t duty_cycle);
 
-void set_duty_joystick(uint8_t x_pos, uint8_t y_pos);
+void set_duty_cycle_y(uint32_t duty_cycle);
 
+void set_duty_joystick(uint8_t x_pos, uint8_t y_pos, uint8_t dir);
 
+void quad_init();
 
+void speed(uint8_t acceleration);
+
+void set_motor_direction(uint16_t direction);
 
 #endif /* PWM_H_ */

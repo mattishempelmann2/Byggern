@@ -60,23 +60,36 @@ int main(void)
 	uint16_t score = 0;
 	uint16_t previous_result;
 	previous_result = 0;
+	
+	set_motor_direction(2);
+	
+	
+	quad_init();
     while (1) 
     {  
 		//uint32_t a = ;
 		//uart_send_u32_hex(a);
-		if (count_score(&previous_result)){
-			score = score +1;
-			previous_result = 1;
-		}
+// 		if (count_score(&previous_result)){
+// 			score = score +1;
+// 			previous_result = 1;
+// 		}
+		for (volatile int i = 0; i < 1000000; i++); // small delay
+		
+		int pos = TC2->TC_CHANNEL[0].TC_CV;
+		printf("Encoder count: %d \r\n", pos);
 		
 		//printf("ADC SIGNAL: %d`\n\r", adc_read());
 		
-		printf("Current score: %d \n\r", score);
-		can_rx(&test);
-		set_duty_joystick(test.byte[2], test.byte[3]);
-// 		for(uint8_t i = 0; i < test.length; i++){
-// 			 uart_tx(test.byte[i]);
-// 		 }
-//        printf("while loop\n\r");
+// 		printf("Current score: %d \n\r", score);
+  		can_rx(&test);
+//  		set_duty_joystick(test.byte[2], test.byte[3], test.byte[4]);
+		int ref = joystick_to_ref(test.byte[2]);
+		int control_input = PID_controller(ref,0);
+		set_duty_control_input(control_input);
+		printf("\n\r");
+		for(uint8_t i = 0; i < test.length; i++){
+			 //uart_tx(test.byte[i]);
+			// printf("%d,", test.byte[4]);
+		 }
 	}
 }
