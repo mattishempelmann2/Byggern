@@ -12,6 +12,8 @@
 #define F_CPU 84000000
 #define maxduty 4200
 #define minduty 1800
+#define maxDuty_x 40000
+#define minDuty_x 0
 #define ADC_MIN 66
 #define ADC_MAX 245
 

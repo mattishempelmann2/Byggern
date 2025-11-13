@@ -8,26 +8,12 @@
 
 #include "includes.h"
 
+volatile int pid_flag = 0;
+
+void TC1_Handler(void);
 
 int main(void)
 {
-    /* Initialize the SAM system */
-    SystemInit();
-// 	PMC->PMC_PCER0 = (1u << ID_PIOB); // enables PIOB clock
-// 	
-// 	PIOB->PIO_PER = (1u << 13); //PB13 to GPIO
-// 	
-// 	PIOB->PIO_OER   = (1u << 13); // configure as output
-// 	PIOB->PIO_PUDR  = (1u << 13); // disables pull up                   
-// 	PIOB->PIO_MDDR  = (1u << 13); // push-pull
-// 	
-// 	PIOB->PIO_SODR = (1u << 13); // sets pin high
-	
-	disable_watchdog();
-	uart_init(F_CPU, 9600);
- 	uint8_t value = 'a';
- 	uart_tx(value);
-	
 	CanInit can100kbit_84MHz = {
 		.phase2 = 2,
 		.propag = 2,
@@ -37,59 +23,49 @@ int main(void)
 		.smp = 0
 	};
 	
+    SystemInit();
+	PID_timer_init();
+	uart_init(F_CPU, 9600);
 	can_init(can100kbit_84MHz,0);
-	CanMsg msg;
-	 
-	msg.id = 0;
-	msg.length = 8;
-	msg.byte[0] = 0x11;
-	msg.byte[1] = 0x22;
-	msg.byte[2] = 0x33;
-	msg.byte[3] = 0x44;
-	msg.byte[4] = 0x55;
-	msg.byte[5] = 0x66;
-	msg.byte[6] = 0x77;
-	msg.byte[7] = 0x88;
-	//can_tx(msg);
-	
-	
- 	CanMsg test;
 	PWM_init();
 	ADC_init();
+	encoder_init();
+
+	__enable_irq();
 	
-	uint16_t score = 0;
-	uint16_t previous_result;
+	disable_watchdog();
+	
+ 	CanMsg IOboard;
+
+
+	int score = 0;
+	int previous_result;
 	previous_result = 0;
+
+		
 	
-	set_motor_direction(2);
+	can_rx(&IOboard);
 	
-	
-	quad_init();
     while (1) 
     {  
-		//uint32_t a = ;
-		//uart_send_u32_hex(a);
-// 		if (count_score(&previous_result)){
-// 			score = score +1;
-// 			previous_result = 1;
-// 		}
-		for (volatile int i = 0; i < 1000000; i++); // small delay
 		
-		int pos = TC2->TC_CHANNEL[0].TC_CV;
-		printf("Encoder count: %d \r\n", pos);
-		
-		//printf("ADC SIGNAL: %d`\n\r", adc_read());
-		
-// 		printf("Current score: %d \n\r", score);
-  		can_rx(&test);
-//  		set_duty_joystick(test.byte[2], test.byte[3], test.byte[4]);
-		int ref = joystick_to_ref(test.byte[2]);
-		int control_input = PID_controller(ref,0);
-		set_duty_control_input(control_input);
-		printf("\n\r");
-		for(uint8_t i = 0; i < test.length; i++){
-			 //uart_tx(test.byte[i]);
-			// printf("%d,", test.byte[4]);
-		 }
+  		
+		int joystick_ref = IOboard.byte[5];
+		if(pid_flag){
+			can_rx(&IOboard);
+ 			pid_flag = 0;
+			int control_input = PID_controller(joystick_ref); // regulates based on reference and current pos
+			set_duty_control_input(control_input);
+		}
+ 		
 	}
+}
+
+
+void TC1_Handler(void){
+	int status = TC0->TC_CHANNEL[1].TC_SR; // lese/clear status register
+	if(status & TC_SR_CPCS){
+		pid_flag = 1;
+	}
+	NVIC_ClearPendingIRQ(TC1_IRQn);
 }

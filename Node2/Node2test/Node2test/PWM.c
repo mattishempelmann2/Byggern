@@ -28,7 +28,7 @@ void PWM_init(){ //use PWMH0 on PA8
 	PWM->PWM_WPCR = 0x50574D << 8 | 0b11111100; // disable write protection
 	
 	//clock
-	PWM->PWM_CLK = PWM_CLK_PREA(0)  | PWM_CLK_DIVA(42); // CLK = MCK/(PREA*DIVA) should give 2Mhz
+	PWM->PWM_CLK = PWM_CLK_PREA(0)  | PWM_CLK_DIVA(42); // CLK = MCK/(PREA+DIVA) should give 2Mhz
 	
 	PWM->PWM_CH_NUM[1].PWM_CMR = PWM_CMR_CPRE_CLKA;
 	
@@ -62,72 +62,79 @@ void set_duty_cycle_y(uint32_t duty_cycle){
 	
 }
 
-void set_duty_cycle_x(uint32_t duty_cycle){
-	//max = 10.5%
-	//min = 4.5%
-	//duty_cycle = 10.5% = 10.5*10 = 105
-	int maxDuty = 20000;
-	int minDuty = 0;
-	
-	if(duty_cycle > maxDuty){
-		duty_cycle = maxduty;
+void set_duty_cycle_x(int duty_cycle){
+	if(duty_cycle > maxDuty_x){
+		duty_cycle = maxDuty_x;
 	}
-	if(duty_cycle < 0){
-		duty_cycle = 0;
+	if(duty_cycle < minDuty_x){
+		duty_cycle = minDuty_x;
 	}
-	
+	//printf("Duty cycle: %d \n\r",duty_cycle);
 	PWM->PWM_CH_NUM[0].PWM_CDTY = 40000-duty_cycle;
 	
 }
 
+
+
 void set_duty_joystick(uint8_t x_pos, uint8_t y_pos, uint8_t dir){
-	uint8_t x_prosent = joystick_to_percent(x_pos);
-	uint8_t y_prosent = joystick_to_percent(y_pos);
+	int x_prosent = joystick_to_percent(x_pos);
+	int y_prosent = joystick_to_percent(y_pos);
 	
-	uint32_t maxDuty_x = 10000;
-	uint32_t minDuty_x = 0;
-	uint32_t duty_x = 0;
+	int duty_x = 0;
 	if(x_prosent<50){
 		duty_x = minDuty_x + ((uint32_t)(100-x_prosent) * (maxDuty_x)) / 100;
 	}else{
 		duty_x = minDuty_x + ((uint32_t)x_prosent * (maxDuty_x)) / 100;
 	}
-	uint32_t duty_y = minduty + ((uint32_t)y_prosent * (maxduty - minduty)) / 100;
+	int duty_y = minduty + ((uint32_t)y_prosent * (maxduty - minduty)) / 100;
 	
-	set_duty_cycle_x(duty_x);
+	if(dir == 4){
+		set_duty_cycle_x(0);
+	}
+	else{
+		set_duty_cycle_x(duty_x);
+	}
+	
 	set_duty_cycle_y(duty_y);
 	set_motor_direction(dir);
+	
 }
 
 
 
 
-uint8_t joystick_to_percent(uint8_t verdi) {
+//uint8_t joystick_to_percent(uint8_t verdi) {
+	//if (verdi < ADC_MIN) verdi = ADC_MIN;
+	//if (verdi > ADC_MAX) verdi = ADC_MAX;
+//
+	//// Scale linearly
+	//return ((uint32_t)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
+//}
+//
+//int joystick_to_ref(int x_pos){
+	//uint8_t x_percent = joystick_to_percent(x_pos);
+	//int ref = x_percent - 50;
+	//printf("reference: %d \n\r",ref);
+	//if(abs(ref) < 5){return 0;}
+	//return ref;
+//}
+
+int joystick_to_percent(int verdi) {
 	if (verdi < ADC_MIN) verdi = ADC_MIN;
 	if (verdi > ADC_MAX) verdi = ADC_MAX;
 
-	// Scale linearly: 0 ? 0%, ADC_MAX ? 100%
-	return ((uint32_t)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
+	// Scale linearly
+	return ((int)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
 }
 
-int joystick_to_ref(int x_pos){
-	int range =2790;
-	int pos = get_position();
-	uint8_t x_percent = joystick_to_percent(x_pos);
-	int ref = 0;
-	
-	if(x_percent<50){
-		/*ref = pos - 2*range * (100-x_percent-50)/100;*/
-		ref = -2*range * (100-x_percent-50)/100;
-		}
-	else{
-		//ref = pos + 2*range * (x_percent-50)/100;
-		ref = 2*range * (x_percent-50)/100;
-	}
-	//printf("reference: %d \n\r",ref);
-	return ref;
-	
-}
+// int joystick_to_ref(int x_pos){
+// 	int x_percent = joystick_to_percent(x_pos);
+// 	if(abs(x_percent - 50) < 5){return 0;}
+// 	int scale = 5;
+// 	int ref = (x_percent - 50)*scale;
+// 	printf("reference: %d \n\r",ref);
+// 	return ref;
+// }
 
 
 void quad_init(){
@@ -145,6 +152,17 @@ void quad_init(){
 
 	PIOC->PIO_PDR = PIO_PC26;    // Disable PIO control of PC26
 	PIOC->PIO_ABSR |= PIO_PC26;  // Select Peripheral B for PC26 (TIOB6)
+	
+
+}
+
+
+void encoder_init(){
+	set_motor_direction(2);
+	set_duty_cycle_x(5000);
+	for (volatile int i = 0; i < 5000000; i++); // small delay, replace with timer func once impelmented
+	set_duty_cycle_x(0);
+	quad_init();
 }
 
 int get_position(){

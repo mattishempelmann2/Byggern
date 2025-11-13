@@ -11,11 +11,14 @@
 #define CONTROLLER_H_
 
 
-int compute_error(int ref);
+int compute_desired_pos(int joystick_ref);
 
+int PID_controller(int joystick_ref);
 
-int PID_controller(int ref, uint32_t* sum_of_errors);
 
 void set_duty_control_input(int control_input);
+
+void PID_timer_init();
+
 
 #endif /* CONTROLLER_H_ */

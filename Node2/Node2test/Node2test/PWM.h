@@ -16,9 +16,9 @@ void disable_watchdog();
 
 void PWM_init();
 
-uint8_t joystick_to_percent(uint8_t verdi);
+int joystick_to_percent(int verdi);
 
-void set_duty_cycle_x(uint32_t duty_cycle);
+void set_duty_cycle_x(int duty_cycle);
 
 void set_duty_cycle_y(uint32_t duty_cycle);
 
@@ -29,5 +29,8 @@ void quad_init();
 void speed(uint8_t acceleration);
 
 void set_motor_direction(uint16_t direction);
+
+void encoder_init();
+
 
 #endif /* PWM_H_ */
