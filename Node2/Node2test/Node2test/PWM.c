@@ -162,11 +162,6 @@ int get_position(){
 	return pos;
 }
 
-void speed(uint8_t acceleration){
-
-	PWM->PWM_CH_NUM[0].PWM_CDTY = 40000*(acceleration/100);
-	
-}
 
 void set_motor_direction(uint16_t direction){
 

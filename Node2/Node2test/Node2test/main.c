@@ -31,6 +31,7 @@ int main(void)
 	ADC_init();
 	encoder_init();
 
+
 	__enable_irq();
 	
 	disable_watchdog();
@@ -49,10 +50,12 @@ int main(void)
 	
 	
 	int something = 0;
+	int start = 1;
     while (1) 
     {  
 		
 		while(!IOboard.byte[1]) can_rx(&IOboard);
+
 		
 		if(pid_flag){
 			

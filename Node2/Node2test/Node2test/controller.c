@@ -61,7 +61,7 @@ void PID_timer_init(){
 }
 
 void solenoid_init() {
-	// Set output for the sol pin (24)
+	// Set output for the sol pin (24
 	
 	PMC->PMC_PCER0 = (1u << ID_PIOC); // enables PIOB clock
 	
@@ -69,8 +69,8 @@ void solenoid_init() {
 	PIOC->PIO_OER   = (1u << 24); // configure as output
 	PIOC->PIO_PUDR  = (1u << 24); // disables pull up
 	PIOC->PIO_MDDR  = (1u << 24); // push-pull
-	 
-		
+	
+	
 }
 
 void solenoid_action_on() {
