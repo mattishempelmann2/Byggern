@@ -71,6 +71,16 @@ void CAN_initialize() {
 	sei();
 }
 
+void CAN_start_game() {
+	CANMessage game;
+	
+	game.id = 0;
+	game.data_length = 1;
+	game.data[0] = 1;
+
+	CAN_write(0,game);
+}
+
 ISR(INT0_vect) {
 	CANMessage received_message;
 
