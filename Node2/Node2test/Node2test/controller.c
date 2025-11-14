@@ -24,7 +24,7 @@ int PID_controller(int joystick_ref){
 	sum_of_errors += e;
 	
 	int control_input = k_p*e + T*k_i*sum_of_errors;
-	printf("Control input %d \n\r", control_input);
+	//printf("Control input %d \n\r", control_input);
 	return control_input;
 }
 

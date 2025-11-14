@@ -22,7 +22,7 @@ void set_duty_cycle_x(int duty_cycle);
 
 void set_duty_cycle_y(uint32_t duty_cycle);
 
-void set_duty_joystick(uint8_t x_pos);
+void set_duty_joystick(uint8_t x_pos, uint8_t x_zero);
 
 void quad_init();
 

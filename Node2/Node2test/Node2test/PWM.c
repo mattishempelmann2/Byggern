@@ -38,7 +38,7 @@ void PWM_init(){ //use PWMH0 on PA8
 	// clock for the enable signal
 	PWM->PWM_CH_NUM[0].PWM_CMR = PWM_CMR_CPRE_CLKA;
 	PWM->PWM_CH_NUM[0].PWM_CPRD = 40000; // 40000 counts gives us 50Hz
-	PWM->PWM_CH_NUM[0].PWM_CDTY = 39000; // Duty cycle 7.5%
+	PWM->PWM_CH_NUM[0].PWM_CDTY = 39000; //
 
 	PWM->PWM_ENA = PWM_ENA_CHID0 | PWM_ENA_CHID1; // enable
 }
@@ -56,7 +56,7 @@ void set_duty_cycle_y(uint32_t duty_cycle){
 	if(duty_cycle < minduty){
 		duty_cycle = minduty;
 	}
-	
+		
 	
 	PWM->PWM_CH_NUM[1].PWM_CDTY = 40000-duty_cycle;
 	
@@ -76,12 +76,20 @@ void set_duty_cycle_x(int duty_cycle){
 
 
 
-void set_duty_joystick(uint8_t x_pos){
-	int x_prosent = joystick_to_percent(x_pos);
-
-	int duty_x = minduty + ((uint32_t)x_prosent * (maxduty - minduty)) / 100;
+void set_duty_joystick(uint8_t x_pos, uint8_t x_zero){
 	
-	set_duty_cycle_y(duty_x);
+	if(abs(x_pos - x_zero) > 5){
+	
+		int x_prosent = joystick_to_percent(x_pos);
+	
+		int duty_x = minduty + ((uint32_t)x_prosent * (maxduty - minduty)) / 100;
+	
+		set_duty_cycle_y(duty_x);
+	}
+	else {
+		
+		set_duty_cycle_y(3100);
+	}
 	
 }
 
@@ -108,7 +116,6 @@ int joystick_to_percent(int verdi) {
 	if (verdi < ADC_MIN) verdi = ADC_MIN;
 	if (verdi > ADC_MAX) verdi = ADC_MAX;
 
-	// Scale linearly
 	return ((int)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
 }
 

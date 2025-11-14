@@ -37,13 +37,10 @@ int main(void)
 	
  	CanMsg IOboard;
 
-
-	int score = 0;
+	int score = 100;
 	int previous_result;
 	previous_result = 0;
 
-	
-	
 	can_rx(&IOboard);
 	
 	//solenoid_init();
@@ -55,6 +52,8 @@ int main(void)
     {  
 		
 		int joystick_ref = IOboard.byte[5];
+		
+		//printf(" %d ", adc_read());
 		if(pid_flag){
 			//something++;
 // 			if(something % 2 == 0)	solenoid_action_on();
@@ -62,13 +61,21 @@ int main(void)
 // 			if(IOboard[7] == 1) solenoid_hit();
 			can_rx(&IOboard);
 			pid_flag = 0;
-			set_duty_joystick(IOboard.byte[2]);
+			set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
+			//printf("adc val : %d \n\r", IOboard.byte[2]);
 			int control_input = PID_controller(joystick_ref); // regulates based on reference and current pos
 			set_duty_control_input(control_input);
+			if (count_score(&previous_result)){
+				score = score - 1;
+				previous_result = 1;
+				printf("Score: %d \n\r", score);
+				
+			}
 		}
 	}
 }
 
+		
 
 void TC1_Handler(void){
 	int status = TC0->TC_CHANNEL[1].TC_SR; // lese/clear status register
