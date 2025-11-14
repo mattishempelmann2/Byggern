@@ -45,6 +45,7 @@ int main(void)
 	
 	solenoid_init();
 	
+	// Connected to the arduino 3.3V
 	solenoid_action_on();
 	for(volatile int i = 0; i < 1000000; i++);
 	solenoid_action_off();
