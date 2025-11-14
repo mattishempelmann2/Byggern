@@ -57,6 +57,7 @@ void display_invert_page(uint8_t page);
 typedef struct {
 	char **menu_items;
 	int length;
+	
 }menu;
 
 

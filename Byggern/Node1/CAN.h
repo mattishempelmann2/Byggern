@@ -25,5 +25,9 @@ ISR(INT0_vect);
 
 void CAN_receive(CANMessage *message);
 
+volatile void CAN_start();
+
+uint8_t get_start();
+
 
 #endif

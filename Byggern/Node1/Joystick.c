@@ -94,7 +94,7 @@ void joystick_button_init(){
 	PORTB |= (1 << PB0);
 }
 
-int joystick_btn_press(){
+uint8_t joystick_btn_press(){
 	if(PINB & (1 << PB0)){
 		return 0;
 	}
@@ -105,16 +105,18 @@ int joystick_btn_press(){
 
 volatile void Joystick_CAN(){
 	CANMessage joystick;
+	
 	joystick.id = 0;
-	joystick.data_length = 7;
+	joystick.data_length = 8;
 	joystick.data[0] = controller.x_zero;
-	joystick.data[1] = controller.y_zero;
+	//joystick.data[1] = controller.y_zero;
+	joystick.data[1] = get_start();
 	joystick.data[2] = controller.x_int;
-	joystick.data[3] = controller.y_int;
-	joystick.data[4] = controller.dir;
+	//joystick.data[3] = controller.y_int;
+	//joystick.data[4] = controller.dir;
 	joystick.data[5] = controller.touchpad_x;
-	joystick.data[6] = controller.touchpad_y;
-	//joystick.data[7] = button_pressed();
+	//joystick.data[6] = controller.touchpad_y;
+	joystick.data[7] = joystick_btn_press();
 
 	CAN_write(0,joystick);
 }

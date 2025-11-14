@@ -47,7 +47,7 @@ enum direction calc_direc(signed int x, signed int y);
 
 void joystick_button_init();
 
-int joystick_btn_press();
+uint8_t joystick_btn_press();
 
 volatile void Joystick_CAN();
 

@@ -100,7 +100,7 @@ void display_reset(){
 }
 
 void display_clear(){
-	for(int i = 0; i < 128; i++){
+	for(int i = 0; i < 0x400; i++){
 			ext_ram[i] = 0x00;	
 	}
 
@@ -231,6 +231,7 @@ void display_print_menu(uint8_t page , menu menu_lines ){
 	for(int i = 0; i < menu_lines.length; i++){
 		display_print(menu_lines.menu_items[i],i);
 	}
+	for(int i = 7; i > menu_lines.length; i--) display_clear_line(i);
 	display_invert_page(page);
 }
 
@@ -240,10 +241,12 @@ uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 	if(joystick_btn_press()){
 		return menu_p->current_pos;
 	}
+	
 	if(menu_p->previous_joystick_pos != controller.dir){
+		// down
 		if(controller.dir == 0){
 			menu_p->previous_pos = menu_p->current_pos;
-			if(menu_p->current_pos > 2){
+			if(menu_p->current_pos > 2){ // TO CHANGE: 
 				menu_p->current_pos --;
 			}
 			else{
@@ -255,6 +258,7 @@ uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 	
 			menu_p->previous_joystick_pos = 0;
 		}
+		// up
 		else if(controller.dir == 1){
 			menu_p->previous_pos = menu_p->current_pos;
 			if(menu_p->current_pos < menu_lines.length-1){
@@ -270,10 +274,12 @@ uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 		}
 		else if(controller.dir == 4){ // Neutral position
 			menu_p->previous_joystick_pos = 4;
+			
 		}
-		}
-		display_all_pages();
-		return 0;
+	}
+	
+	display_all_pages();
+	return 0;
 }
 
 

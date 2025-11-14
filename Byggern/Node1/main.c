@@ -24,7 +24,9 @@ int main(void)
 	init_SPI();
 	ADC_init();
 	Calibrate_joystick();
+	CAN_initialize();
 	
+	printf("Restarted	\n\r");
 	
 	display_initialize();
 	display_clear();
@@ -36,80 +38,59 @@ int main(void)
 	display_pixel_on(127,63);
 	
 	uint8_t score = 0;
+	uint8_t points = 0;
+	uint8_t highscores[2];
 	
-	char* main_items[] = {"Welcome" , " ", "start game", "quit"};
-	char* pause_items[] ={"Pause", " ","continue", "quit", "Highscore:" + score};
+	char* main_items[] = {"Welcome" , " ", "start game", "highscores"};
+	char* start_game_items[] = {"Good luck" , " ", "Points left: " +score};
+	char* highscores_items[] = {"Highscores", " ", highscores[0], highscores[1], highscores[2]};
+	char* game_over_items[] = {"Game Over", " ", "Your score" + score, "Restart", "Quit"};
+	
+
 	menu main_menu;
 	main_menu.menu_items = main_items;
 	main_menu.length = 4;
-	menu pause_menu;
-	pause_menu.menu_items = pause_items;
-	pause_menu.length = 5;
 	
-	display_print_menu(2,pause_menu);
-
-	display_all_pages();
+	menu start_menu;
+	start_menu.menu_items = start_game_items;
+	start_menu.length = 3;
+	
+	menu highscore_menu;
+	highscore_menu.menu_items = highscores_items;
+	highscore_menu.length = 5;
+	
+	menu game_over_menu;
+	game_over_menu.menu_items = game_over_items;
+	game_over_menu.length = 5;
 	
 	menu_pos menu_p;
 	menu_p.current_pos = 2;
 	
-	menu *current_menu = &main_menu;
+	display_print_menu(menu_p.current_pos,main_menu);
+	display_all_pages();
 	
-	CAN_initialize();
-// 	CANMessage message;
-// 	message.id = 0;
-// 	uint8_t	data[] = {'3', '4', '5', 'c', 'd', 'e', 'f', 'z'};
-// 	message.data_length = 8;
-// 	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
-// 	CAN_write(1, message);
-	printf("Restarted	\n\r");
+	menu *current_menu = &main_menu;
 	
     while (1) 
     {
 		updateJoystick();
-/*		
- 		int selected_option = display_update_menu(&menu_p, *current_menu);
-		 
- 		if(selected_option != 0){
-			 switch(current_menu){
-				case(main_menu):
-					*current_menu = &pause_menu;
-					CAN_tart_game();
-					break;
-					
-				case(pause_menu):
-					if(1);
-					break;
-					
-				default:
-					break;
+		uint8_t selected_option = display_update_menu(&menu_p, *current_menu);
+		if(current_menu == &main_menu) {
+			if(selected_option == 2){
+				CAN_start();
+				
+				display_clear();
+				current_menu = &start_menu;
+				display_print_menu(menu_p.current_pos,*current_menu);
+				
+				
 			}
 		}
-		
-		if (*current_menu == &pause_menu) Joystick_CAN();
-		if (available_message && receivedMessage.id == 1) score = receivedMessage-byes[0];
-		if (available_message && receivedMessage.id == 0) // game_over;
-		 
-*/		
+		else if( current_menu == &start_menu) selected_option = display_update_menu(&menu_p, start_menu);
 		
 		Joystick_CAN();
-
-		//CAN_write(1, message);
-
-// 		IO_button_init(values);
-// 		if(values[0] == 32) {
-// 			IO_button_on_leds(0);
-// 			_delay_ms(100);
-// 		}
-		//printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
-		//printf("Joystick X pos: %d, Joystick Y pos: %d\n\r", controller.x_int, controller.y_int);
-
-		_delay_ms(5);
 		
-		/* if(receivedMessage.id == X && receivedMessage.byte[0] == 1) {
-			score++;
-			updateMenu();
-		}*/
+		_delay_ms(5);
 	}
 	
 }
@@ -143,4 +124,15 @@ ISR(INT0_vect) {
 	
 	available_message = 1;
 }
+*/
+
+
+/*
+
+1. MAIN MENU -> PLAY |highscores
+2. PLAY => SEND MESSAGE AND CHANGE MENU TO SOMETHIG (goodluck and points)
+3. "SCORE" starts at 5 and the timer is your final score
+4. WHEN 0 -> game over to node 1
+5. GAME OVER = Play again or go to main menu
+
 */

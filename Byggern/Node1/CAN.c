@@ -6,6 +6,8 @@
  */ 
 #include "Includes.h"
 
+uint8_t game_start = 0;
+
 void CAN_write(uint8_t buffer_number, CANMessage message) {
 	uint8_t command = 0;
 	switch(buffer_number){
@@ -71,15 +73,12 @@ void CAN_initialize() {
 	sei();
 }
 
-void CAN_start_game() {
-	CANMessage game;
+volatile void CAN_start() {
+	game_start = 1;
 	
-	game.id = 0;
-	game.data_length = 1;
-	game.data[0] = 1;
-
-	CAN_write(0,game);
 }
+
+uint8_t get_start() { return game_start;}
 
 ISR(INT0_vect) {
 	CANMessage received_message;

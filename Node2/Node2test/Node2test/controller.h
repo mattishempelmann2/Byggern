@@ -26,7 +26,7 @@ void solenoid_action_off();
 
 void solenoid_action_on();
 
-void solenoid_hit();
+void solenoid_hit(uint8_t input);
 
 
 #endif /* CONTROLLER_H_ */

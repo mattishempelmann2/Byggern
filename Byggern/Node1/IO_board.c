@@ -23,13 +23,21 @@ void IO_button_on_leds(uint8_t led_num){
 	turn = !turn;
 }
 
+uint8_t button_pressed() {
+	uint8_t data[3];
+	IO_button_init(data);
+	if( (0x20 & data[1]) == 0) return 1;
+	return 0;
+}
+
 /*
-// @params but_num: button number 0-7: right buttons, 8-15 left buttons, 16-23 nav buttons
-uint8_t button_pressed(uint8_t but_num) {
+uint8_t button_pressed() {
 	uint8_t data[3];
 	uint8_t command = 0x04;
 	spi_command_read(command, IO, data, sizeof(data));
-	if(but_num == data[but_num]) return 1;
+	uint32_t result = 0;
+	for(int i = 0; i < 3; i++) result |= (data[i] << i*8);
+	if(result != 0) return 1;
 	return 0;
 }
 */

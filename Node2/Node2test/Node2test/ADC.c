@@ -25,13 +25,13 @@ uint16_t adc_read(){
 
 uint16_t count_score(uint16_t* previous_result){
 	uint16_t result = 0;
-	if (adc_read() < 1500 && !*previous_result ){
+	if (adc_read() < 2000 && !*previous_result ){
 		result = 1;
 		// 		for(int i =0;i<10000;i++){
 		// 			result = result;
 		// 		}
 	}
-	else if (adc_read() > 1500 && *previous_result){
+	else if (adc_read() > 2000 && *previous_result){
 			*previous_result = 0;
 	}
 	return result;

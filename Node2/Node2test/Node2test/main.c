@@ -45,33 +45,27 @@ int main(void)
 	
 	solenoid_init();
 	
-	// Connected to the arduino 3.3V
-	solenoid_action_on();
-	for(volatile int i = 0; i < 1000000; i++);
-	solenoid_action_off();
+	printf("Restarting \n\r");
+	
+	
 	int something = 0;
     while (1) 
     {  
 		
-		int joystick_ref = IOboard.byte[5];
+		while(!IOboard.byte[1]) can_rx(&IOboard);
 		
-		//printf(" %d ", adc_read());
 		if(pid_flag){
-// 			something++;
-// 			if(something % 2 == 0)	solenoid_action_on();
-//  			else solenoid_action_off();
-// 			if(IOboard[7] == 1) solenoid_hit();
+			
 			can_rx(&IOboard);
 			pid_flag = 0;
+			solenoid_hit(IOboard.byte[7]);
+			
 			set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
-			//printf("adc val : %d \n\r", IOboard.byte[2]);
-			int control_input = PID_controller(joystick_ref); // regulates based on reference and current pos
-			set_duty_control_input(control_input);
+			set_duty_control_input(PID_controller(IOboard.byte[5])); // regulates based on touchpad
+			
 			if (count_score(&previous_result)){
 				score = score - 1;
 				previous_result = 1;
-				printf("Score: %d \n\r", score);
-				
 			}
 		}
 	}

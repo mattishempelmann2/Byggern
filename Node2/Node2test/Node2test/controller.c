@@ -19,7 +19,7 @@ int PID_controller(int joystick_ref){
 	
 	float T = 0.1;
 	uint16_t k_p = 14;
-	uint16_t k_i = 5;
+	uint16_t k_i = 2;
 	static int sum_of_errors = 0;
 	sum_of_errors += e;
 	
@@ -81,9 +81,8 @@ void solenoid_action_off() {
 	PIOC->PIO_SODR = PIO_PC24;
 }
 
-void solenoid_hit() {
-	solenoid_action_on();
-	for(volatile int i = 0; i < 1000000000; i++);
-	solenoid_action_off();
+void solenoid_hit(uint8_t input) {
+	if (input) solenoid_action_on();
+	else solenoid_action_off();
 }
 
