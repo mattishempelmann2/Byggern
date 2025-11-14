@@ -20,5 +20,13 @@ void set_duty_control_input(int control_input);
 
 void PID_timer_init();
 
+void solenoid_init();
+
+void solenoid_action_off();
+
+void solenoid_action_on();
+
+void solenoid_hit();
+
 
 #endif /* CONTROLLER_H_ */

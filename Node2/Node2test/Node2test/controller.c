@@ -60,3 +60,30 @@ void PID_timer_init(){
 	
 }
 
+void solenoid_init() {
+	// Set output for the sol pin (24)
+	
+	PMC->PMC_PCER0 = (1u << ID_PIOC); // enables PIOB clock
+	
+	PIOC->PIO_PER = (1u << 24); //PB24 to GPIO
+	PIOC->PIO_OER   = (1u << 24); // configure as output
+	PIOC->PIO_PUDR  = (1u << 24); // disables pull up
+	PIOC->PIO_MDDR  = (1u << 24); // push-pull
+	 
+		
+}
+
+void solenoid_action_off() {
+	PIOC->PIO_CODR = PIO_PC24;
+}
+
+void solenoid_action_on() {
+	PIOC->PIO_SODR = PIO_PC24;
+}
+
+void solenoid_hit() {
+	solenoid_action_on();
+	for(volatile int i = 0; i < 1000000000; i++);
+	solenoid_action_off();
+}
+

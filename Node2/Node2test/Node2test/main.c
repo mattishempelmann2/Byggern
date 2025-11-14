@@ -42,22 +42,30 @@ int main(void)
 	int previous_result;
 	previous_result = 0;
 
-		
+	
 	
 	can_rx(&IOboard);
 	
+	//solenoid_init();
+	
+	//solenoid_action_off();
+	
+	//int something = 0;
     while (1) 
     {  
 		
-  		
 		int joystick_ref = IOboard.byte[5];
 		if(pid_flag){
+			//something++;
+// 			if(something % 2 == 0)	solenoid_action_on();
+// 			else solenoid_action_on();
+// 			if(IOboard[7] == 1) solenoid_hit();
 			can_rx(&IOboard);
- 			pid_flag = 0;
+			pid_flag = 0;
+			set_duty_joystick(IOboard.byte[2]);
 			int control_input = PID_controller(joystick_ref); // regulates based on reference and current pos
 			set_duty_control_input(control_input);
 		}
- 		
 	}
 }
 

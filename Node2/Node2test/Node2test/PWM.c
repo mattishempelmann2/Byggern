@@ -76,27 +76,12 @@ void set_duty_cycle_x(int duty_cycle){
 
 
 
-void set_duty_joystick(uint8_t x_pos, uint8_t y_pos, uint8_t dir){
+void set_duty_joystick(uint8_t x_pos){
 	int x_prosent = joystick_to_percent(x_pos);
-	int y_prosent = joystick_to_percent(y_pos);
+
+	int duty_x = minduty + ((uint32_t)x_prosent * (maxduty - minduty)) / 100;
 	
-	int duty_x = 0;
-	if(x_prosent<50){
-		duty_x = minDuty_x + ((uint32_t)(100-x_prosent) * (maxDuty_x)) / 100;
-	}else{
-		duty_x = minDuty_x + ((uint32_t)x_prosent * (maxDuty_x)) / 100;
-	}
-	int duty_y = minduty + ((uint32_t)y_prosent * (maxduty - minduty)) / 100;
-	
-	if(dir == 4){
-		set_duty_cycle_x(0);
-	}
-	else{
-		set_duty_cycle_x(duty_x);
-	}
-	
-	set_duty_cycle_y(duty_y);
-	set_motor_direction(dir);
+	set_duty_cycle_y(duty_x);
 	
 }
 
