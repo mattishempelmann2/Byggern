@@ -65,7 +65,7 @@ void solenoid_init() {
 	
 	PMC->PMC_PCER0 = (1u << ID_PIOC); // enables PIOB clock
 	
-	PIOC->PIO_PER = (1u << 24); //PB24 to GPIO
+	PIOC->PIO_PER = (1u << 24); //PC24 to GPIO
 	PIOC->PIO_OER   = (1u << 24); // configure as output
 	PIOC->PIO_PUDR  = (1u << 24); // disables pull up
 	PIOC->PIO_MDDR  = (1u << 24); // push-pull
@@ -73,11 +73,11 @@ void solenoid_init() {
 		
 }
 
-void solenoid_action_off() {
+void solenoid_action_on() {
 	PIOC->PIO_CODR = PIO_PC24;
 }
 
-void solenoid_action_on() {
+void solenoid_action_off() {
 	PIOC->PIO_SODR = PIO_PC24;
 }
 

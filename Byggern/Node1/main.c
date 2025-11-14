@@ -15,6 +15,7 @@
 #define MYUBRR 31
 
 CANMessage received_message;
+uint8_t available_message = 0;
 
 //Remember callback interrup tips from the TA
 int main(void)
@@ -34,8 +35,10 @@ int main(void)
 	display_pixel_on(0,63);
 	display_pixel_on(127,63);
 	
+	uint8_t score = 0;
+	
 	char* main_items[] = {"Welcome" , " ", "start game", "quit"};
-	char* pause_items[] ={"Pause", " ","continue", "quit", "Highscore: 52"};
+	char* pause_items[] ={"Pause", " ","continue", "quit", "Highscore:" + score};
 	menu main_menu;
 	main_menu.menu_items = main_items;
 	main_menu.length = 4;
@@ -50,6 +53,8 @@ int main(void)
 	menu_pos menu_p;
 	menu_p.current_pos = 2;
 	
+	menu *current_menu = &main_menu;
+	
 	CAN_initialize();
 // 	CANMessage message;
 // 	message.id = 0;
@@ -57,35 +62,54 @@ int main(void)
 // 	message.data_length = 8;
 // 	for(int i = 0; i < sizeof(data); i++) message.data[i] = data[i];
 // 	CAN_write(1, message);
-	printf("menu pos is:	\n\r");
+	printf("Restarted	\n\r");
 	
     while (1) 
     {
 		updateJoystick();
+/*		
+ 		int selected_option = display_update_menu(&menu_p, *current_menu);
+		 
+ 		if(selected_option != 0){
+			 switch(current_menu){
+				case(main_menu):
+					*current_menu = &pause_menu;
+					CAN_tart_game();
+					break;
+					
+				case(pause_menu):
+					if(1);
+					break;
+					
+				default:
+					break;
+			}
+		}
+		
+		if (*current_menu == &pause_menu) Joystick_CAN();
+		if (available_message && receivedMessage.id == 1) score = receivedMessage-byes[0];
+		if (available_message && receivedMessage.id == 0) // game_over;
+		 
+*/		
+		
 		Joystick_CAN();
 
 		//CAN_write(1, message);
 
-		//_delay_ms(500);
-		
-// 		int x = display_update_menu(&menu_p, pause_menu);
-// 		if(x != 0){
-// 			
-// 		}
 // 		IO_button_init(values);
 // 		if(values[0] == 32) {
 // 			IO_button_on_leds(0);
 // 			_delay_ms(100);
 // 		}
-		printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
+		//printf("Joystick X pos: %d, Joystick Y pos: %d, Joystick retning: %d \n\r", controller.x_prosent, controller.y_prosent, controller.dir);
 		//printf("Joystick X pos: %d, Joystick Y pos: %d\n\r", controller.x_int, controller.y_int);
 
-		_delay_ms(100);
+		_delay_ms(5);
 		
 		/* if(receivedMessage.id == X && receivedMessage.byte[0] == 1) {
 			score++;
 			updateMenu();
-		*/}
+		}*/
 	}
 	
 }
@@ -116,5 +140,7 @@ ISR(INT0_vect) {
 	if (intf & (MCP_TX0IF)) {
 		mcp2515_bit_modify(MCP_CANINTF,  MCP_TX0IF, 0x00);
 	}
+	
+	available_message = 1;
 }
 */

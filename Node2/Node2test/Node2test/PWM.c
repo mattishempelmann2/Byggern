@@ -78,7 +78,7 @@ void set_duty_cycle_x(int duty_cycle){
 
 void set_duty_joystick(uint8_t x_pos, uint8_t x_zero){
 	
-	if(abs(x_pos - x_zero) > 5){
+	if(abs(x_pos - x_zero) > 10){
 	
 		int x_prosent = joystick_to_percent(x_pos);
 	

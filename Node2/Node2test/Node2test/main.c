@@ -43,11 +43,12 @@ int main(void)
 
 	can_rx(&IOboard);
 	
-	//solenoid_init();
+	solenoid_init();
 	
-	//solenoid_action_off();
-	
-	//int something = 0;
+	solenoid_action_on();
+	for(volatile int i = 0; i < 1000000; i++);
+	solenoid_action_off();
+	int something = 0;
     while (1) 
     {  
 		
@@ -55,9 +56,9 @@ int main(void)
 		
 		//printf(" %d ", adc_read());
 		if(pid_flag){
-			//something++;
+// 			something++;
 // 			if(something % 2 == 0)	solenoid_action_on();
-// 			else solenoid_action_on();
+//  			else solenoid_action_off();
 // 			if(IOboard[7] == 1) solenoid_hit();
 			can_rx(&IOboard);
 			pid_flag = 0;
