@@ -15,6 +15,6 @@ void IO_button_init(uint8_t* data);
 
 void IO_button_on_leds(uint8_t led_num);
 
-
+//uint8_t button_pressed(uint8_t but_num);
 
 #endif /* IO_BOARD_H_ */

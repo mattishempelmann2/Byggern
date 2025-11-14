@@ -14,6 +14,7 @@
 #define FOSC 4915200 //Clock speed
 #define MYUBRR 31
 
+CANMessage received_message;
 
 //Remember callback interrup tips from the TA
 int main(void)
@@ -80,7 +81,40 @@ int main(void)
 		//printf("Joystick X pos: %d, Joystick Y pos: %d\n\r", controller.x_int, controller.y_int);
 
 		_delay_ms(100);
+		
+		/* if(receivedMessage.id == X && receivedMessage.byte[0] == 1) {
+			score++;
+			updateMenu();
+		*/}
 	}
 	
 }
 
+/*
+ISR(INT0_vect) {
+
+	uint8_t intf;
+	mcp2515_read(&intf, MCP_CANINTF, 1);
+
+	if (intf & (MCP_RX0IF)) {
+		CAN_receive(&received_message);
+		mcp2515_bit_modify(MCP_CANINTF, MCP_RX0IF, 0x00);
+	}
+	if (intf & (MCP_RX1IF)) {
+		CAN_receive(&received_message);
+		mcp2515_bit_modify(MCP_CANINTF, MCP_RX1IF, 0x00);
+	}
+	
+	if (intf & (MCP_TX1IF)) {
+		mcp2515_bit_modify(MCP_CANINTF,  MCP_TX1IF, 0x00);
+	}
+	
+	if (intf & (MCP_TX2IF)) {
+		mcp2515_bit_modify(MCP_CANINTF,  MCP_TX2IF, 0x00);
+	}
+	
+	if (intf & (MCP_TX0IF)) {
+		mcp2515_bit_modify(MCP_CANINTF,  MCP_TX0IF, 0x00);
+	}
+}
+*/

@@ -114,6 +114,7 @@ volatile void Joystick_CAN(){
 	joystick.data[4] = controller.dir;
 	joystick.data[5] = controller.touchpad_x;
 	joystick.data[6] = controller.touchpad_y;
+	//joystick.data[7] = button_pressed();
 
 	CAN_write(0,joystick);
 }
