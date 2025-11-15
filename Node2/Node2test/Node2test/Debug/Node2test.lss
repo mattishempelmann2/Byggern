@@ -31,9 +31,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  13 .debug_macro  000137fc  00000000  00000000  0002e29f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_line   00004e85  00000000  00000000  00041a9b  2**0
+ 14 .debug_line   00004e87  00000000  00000000  00041a9b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    000565dd  00000000  00000000  00046920  2**0
+ 15 .debug_str    000565dd  00000000  00000000  00046922  2**0
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_frame  00001b38  00000000  00000000  0009cf00  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -913,7 +913,7 @@ __STATIC_FORCEINLINE void __enable_irq(void)
    80640:	2419      	movs	r4, #25
    80642:	e002      	b.n	8064a <main+0x72>
 	int start = 1;
-	int joy_or_touch = 0;
+	int joy_or_touch = 1;
     while (1) 
     {  
 		
@@ -940,19 +940,23 @@ __STATIC_FORCEINLINE void __enable_irq(void)
    80660:	f89d 000f 	ldrb.w	r0, [sp, #15]
    80664:	4b1f      	ldr	r3, [pc, #124]	; (806e4 <main+0x10c>)
    80666:	4798      	blx	r3
-  			
-  			set_duty_joystick(IOboard.byte[3], IOboard.byte[1]);
-   80668:	f89d 1009 	ldrb.w	r1, [sp, #9]
-   8066c:	f89d 000b 	ldrb.w	r0, [sp, #11]
+  			if(joy_or_touch){
+				  set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
+   80668:	f89d 1008 	ldrb.w	r1, [sp, #8]
+   8066c:	f89d 000a 	ldrb.w	r0, [sp, #10]
    80670:	4b1d      	ldr	r3, [pc, #116]	; (806e8 <main+0x110>)
    80672:	4798      	blx	r3
-  			set_duty_control_input(PID_controller(IOboard.byte[2],joy_or_touch)); // regulates based on touchpad
-   80674:	2100      	movs	r1, #0
-   80676:	f89d 000a 	ldrb.w	r0, [sp, #10]
+				  set_duty_control_input(PID_controller(IOboard.byte[5],joy_or_touch)); // regulates based on touchpad
+   80674:	2101      	movs	r1, #1
+   80676:	f89d 000d 	ldrb.w	r0, [sp, #13]
    8067a:	4b1c      	ldr	r3, [pc, #112]	; (806ec <main+0x114>)
    8067c:	4798      	blx	r3
    8067e:	4b1c      	ldr	r3, [pc, #112]	; (806f0 <main+0x118>)
    80680:	4798      	blx	r3
+				set_duty_control_input(PID_controller(IOboard.byte[2],joy_or_touch)); // regulates based on joystick
+				
+			}
+
  			
   			if (count_score(&previous_result)){
    80682:	4668      	mov	r0, sp

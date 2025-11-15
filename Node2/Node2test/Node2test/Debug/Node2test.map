@@ -3282,16 +3282,16 @@ OUTPUT(Node2test.elf elf32-littlearm)
  .debug_macro   0x000136a5       0x35 uart.o
  .debug_macro   0x000136da      0x122 uart.o
 
-.debug_line     0x00000000     0x4e85
+.debug_line     0x00000000     0x4e87
  .debug_line    0x00000000      0x892 ADC.o
  .debug_line    0x00000892      0x902 can.o
  .debug_line    0x00001194      0x8f8 controller.o
  .debug_line    0x00001a8c      0x728 Device_Startup/startup_sam3xa.o
  .debug_line    0x000021b4      0x785 Device_Startup/system_sam3xa.o
- .debug_line    0x00002939      0x8b3 main.o
- .debug_line    0x000031ec      0x939 PWM.o
- .debug_line    0x00003b25      0x982 time.o
- .debug_line    0x000044a7      0x9de uart.o
+ .debug_line    0x00002939      0x8b5 main.o
+ .debug_line    0x000031ee      0x939 PWM.o
+ .debug_line    0x00003b27      0x982 time.o
+ .debug_line    0x000044a9      0x9de uart.o
 
 .debug_str      0x00000000    0x565dd
  .debug_str     0x00000000    0x54b5c ADC.o
