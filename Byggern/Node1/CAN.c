@@ -52,12 +52,10 @@ void CAN_receive(CANMessage *message) {
 		message->id =(id_start<<3 | id_end >> 5);
 		spi_read(); spi_read();
 		message->data_length = spi_read();
-//		IO_button_on_leds(0);
-// 		printf("Id: %d \n\r", message->id);
-//  		for (int i = 0; i<7;i++){
-// 			 message->data[i]=spi_read();
-//  			 printf("Data %d: %d\n\r", i, message->data[i]);
-// 		 }
+		IO_button_on_leds(0);
+		for (int i = 0; i<message->data_length;i++){
+ 			 message->data[i]=spi_read();
+		}
 		 deselect_slave(CAN);
 	}
 }

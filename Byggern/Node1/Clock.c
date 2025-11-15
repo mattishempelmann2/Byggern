@@ -8,7 +8,7 @@
 #include "Clock.h"
 
 void Clock_init(){
-	DDRD |= (1<<PD4); // PD4 output
+	DDRD |= (1<<PD4); // PD4 output, we dont remember what we did here.
 	ICR3 = 1;
 	OCR3A = 0;
 	TCCR3A |= (1<<COM3A1) | (1<<WGM31);

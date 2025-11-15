@@ -11,8 +11,6 @@ int turn = 0;
 void IO_button_init(uint8_t* data){
 	uint8_t command = 0x04;
 	spi_command_read(command, IO, data, sizeof(data));
-	//printf("\n\n Values: ");
-	//for(int i = 0; i < sizeof(data); i++) printf(" %d ", data[i]);
 }
 
 void IO_button_on_leds(uint8_t led_num){
@@ -30,17 +28,7 @@ uint8_t button_pressed() {
 	return 0;
 }
 
-/*
-uint8_t button_pressed() {
-	uint8_t data[3];
-	uint8_t command = 0x04;
-	spi_command_read(command, IO, data, sizeof(data));
-	uint32_t result = 0;
-	for(int i = 0; i < 3; i++) result |= (data[i] << i*8);
-	if(result != 0) return 1;
-	return 0;
-}
-*/
+
 
 
 

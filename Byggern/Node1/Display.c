@@ -53,7 +53,7 @@ void display_initialize(){
 	uint8_t memory_addressing_array [] = {0x20,0x02}; // memory adressing and memory adressing option, set to page adressing mode
 	display_cmd(memory_addressing_array,2);
 	
-	uint8_t page_start []= {0xb0}; // f�rste page = 0
+	uint8_t page_start []= {0xb0}; // foerste page = 0
 	display_cmd(page_start,1);
 	
 	uint8_t RAM_content [] = {0xa4};
@@ -88,7 +88,7 @@ void display_reset(){
 	uint8_t common_output []= {0xc0};
 	display_cmd(common_output,1);
 
-	uint8_t page_start []= {0xb0}; // f�rste page = 0
+	uint8_t page_start []= {0xb0}; // forste page = 0
 	display_cmd(page_start,1);
 
 	uint8_t col_start []= {0x00}; // start column = 0
@@ -107,16 +107,10 @@ void display_clear(){
 	}
 
 	for(uint8_t j = 0; j < 8; j++){
-		//uint8_t page_start []= {0xb0 | j}; // f�rste page = 0
-		//display_cmd(page_start,1);
-		//display_data(display_buffer, sizeof(display_buffer));
 		display_clear_line(j);
 	}
 }
 
-void display_home() {
-
-}
 
 uint8_t display_validate_line(uint8_t line) {
 	if(line > 63 || line < 0) return -1;
@@ -204,13 +198,11 @@ void display_init_SRAM(){
 }
 
 void display_pixel_on(uint8_t x, uint8_t y){
-//	uint8_t page = y/8;
 	uint8_t bit_in_page = y % 8;
 	ext_ram[(y/8)*128+x] |= (1 << bit_in_page);
 }
 
 void display_pixel_off(uint8_t x, uint8_t y){
-//	uint8_t page = y/8;
 	uint8_t bit_in_page = y % 8;
 	ext_ram[(y/8)*128+x] &= ~(1 << bit_in_page);
 }
@@ -241,7 +233,6 @@ void display_print_menu(uint8_t page , menu menu_lines ){
 uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 	updateJoystick();
 	if(joystick_btn_press()){
-		//display_print_menu(menu_p->current_pos,menu_lines);
 		display_all_pages();
 		return menu_p->current_pos;
 	}
@@ -288,15 +279,6 @@ uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 }
 
 
-
-// 
-// void display_line(uint8_t start, uint8_t end){
-// 	uint8_t command_start_line = 0xB0;
-// 	spi_write_bytes(&command_start_line, 1, DISPLAY);
-// 	
-// 	uint8_t command_start_nibble = (0x00 | start & 0x0F);
-// 	spi_write_bytes(&command_start_nibble, 1, DISPLAY);
-// } 
 
 
 const unsigned char font8[95][8] PROGMEM = {

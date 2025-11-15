@@ -81,7 +81,6 @@ int main(void)
 
 		updateJoystick();
 		uint8_t selected_option = display_update_menu(&menu_p, *current_menu);
-		//uint8_t selected_option = 0;
 		if(current_menu == &main_menu) {
 			if(selected_option == 2){
 				
@@ -142,13 +141,7 @@ int main(void)
 				
 			}
 		 }
-		
-		//
-		
 		_delay_ms(5);
-		
-		//printf("nothing \n\r");
-
 	}
 	
 }
@@ -158,14 +151,10 @@ ISR(INT0_vect) {
 	uint8_t intf;
 	mcp2515_read(&intf, MCP_CANINTF, 1);
 	if (intf & (MCP_RX0IF)) {
-		//CAN_receive(&received_message);
-		//printf("0");
 		mcp2515_bit_modify(MCP_CANINTF, MCP_RX0IF, 0x00);
 		available_message = 1;
 	}
 	if (intf & (MCP_RX1IF)) {
-		//CAN_receive(&received_message);
-		//printf("1");
 		mcp2515_bit_modify(MCP_CANINTF, MCP_RX1IF, 0x00);
 		available_message = 1;
 	}
@@ -193,23 +182,5 @@ ISR(INT0_vect) {
 	if(intf & (MCP_WAKIF)){
 		mcp2515_bit_modify(MCP_CANINTF, MCP_WAKIF, 0x00);
 	}
-	
-	//printf(" %d,", intf);
-	
-// 	if (intf & (MCP_ERRIF | MCP_WAKIF | MCP_MERRF)) {
-// 		mcp2515_bit_modify(MCP_CANINTF, intf & (MCP_ERRIF | MCP_WAKIF | MCP_MERRF), 0x00);
-// 	}
-	
 }
 
-
-
-/*
-
-1. MAIN MENU -> PLAY |highscores
-2. PLAY => SEND MESSAGE AND CHANGE MENU TO SOMETHIG (goodluck and points)
-3. "SCORE" starts at 5 and the timer is your final score
-4. WHEN 0 -> game over to node 1
-5. GAME OVER = Play again or go to main menu
-
-*/

@@ -88,30 +88,13 @@ void mcp2515_init ()
 	uint8_t RBC_data = 0b01100000;
 	mcp2515_bit_modify(RBC0, RBC_mask, RBC_data);
 	
-	uint8_t EI = 0b01100000; // Extended id
-	//mcp2515_bit_modify(M, EI, Ei);
-	
-	
 	uint8_t RBC1 = 0x70; // Receive buffer 1 control address
 	mcp2515_bit_modify(RBC1, RBC_mask, RBC_data);
 
-	//
-	//	INTERRUPTIONS
-	//
-	
-// 	Clean first if there were any interruptions before
-//	uint8_t IF_data = 0;
-//	mcp2515_write(IF_data, MCP_CANINTE, 1);
-	
-	//uint8_t TE_mask = 0b00000011;
 	uint8_t TE_mask = 0xFF;
 	uint8_t TE_data = TE_mask;
 	mcp2515_bit_modify(MCP_CANINTE, TE_mask, TE_data);
 	
-	//
-	//	CNF
-	//
-
 	uint8_t CNF1_data = 0x07;
 	mcp2515_write(CNF1_data, MCP_CNF1);
 	

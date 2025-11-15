@@ -115,9 +115,8 @@ volatile void Joystick_CAN(){
 	joystick.data[4] = get_start();
 	//joystick.data[4] = controller.dir;
 	joystick.data[5] = controller.touchpad_x;
-	//joystick.data[6] = controller.touchpad_y;
+	joystick.data[6] = controller.touchpad_y;
 	joystick.data[7] = joystick_btn_press();
-// 	printf("touchpad: %d \n\r", joystick.data[5]);
 
 	CAN_write(0,joystick);
 }

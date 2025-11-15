@@ -84,7 +84,7 @@ void spi_command_read(uint8_t command, enum slave SS, uint8_t* data, uint16_t le
 	deselect_slave(SS);
 }
 
-void spi_write_bytes_no_slave(volatile uint8_t* bytes, int size){
+void spi_write_bytes_no_slave(volatile uint8_t* bytes, int size){ // for use in other functions with own slave select
 	for(uint8_t i = 0; i < size; i++){
 		spi_transfer(bytes[i]);
 		if (i==0){
