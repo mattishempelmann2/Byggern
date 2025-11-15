@@ -135,6 +135,7 @@ int get_position(){
 void set_motor_direction(uint16_t direction){
 
 	if(direction == 3) {
+		//right
 		// set the DIR = 0
 		PIOC->PIO_CODR = PIO_PC23;
 	} else if (direction == 2) {

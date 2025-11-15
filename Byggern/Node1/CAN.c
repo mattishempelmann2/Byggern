@@ -52,7 +52,7 @@ void CAN_receive(CANMessage *message) {
 		message->id =(id_start<<3 | id_end >> 5);
 		spi_read(); spi_read();
 		message->data_length = spi_read();
-		IO_button_on_leds(0);
+		
 		for (int i = 0; i<message->data_length;i++){
  			 message->data[i]=spi_read();
 		}

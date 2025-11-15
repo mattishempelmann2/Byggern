@@ -103,7 +103,7 @@ Discarded input sections
  .data          0x00000000        0x0 Node1/CAN.o
  .bss           0x00000000        0x0 Node1/CAN.o
  .text.CAN_receive
-                0x00000000       0xa6 Node1/CAN.o
+                0x00000000       0xa0 Node1/CAN.o
  .text          0x00000000        0x0 Node1/Clock.o
  .data          0x00000000        0x0 Node1/Clock.o
  .bss           0x00000000        0x0 Node1/Clock.o
@@ -1090,19 +1090,19 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x3a1e
+.debug_info     0x00000000     0x39fe
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5d0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_info    0x000005d0      0x135 Node1/Adc.o
- .debug_info    0x00000705      0x501 Node1/CAN.o
- .debug_info    0x00000c06       0x94 Node1/Clock.o
- .debug_info    0x00000c9a      0xfb3 Node1/Display.o
- .debug_info    0x00001c4d      0x429 Node1/Joystick.o
- .debug_info    0x00002076      0x8bb Node1/main.o
- .debug_info    0x00002931      0x798 Node1/MCP2515.o
- .debug_info    0x000030c9      0x5c8 Node1/SPI.o
- .debug_info    0x00003691      0x17a Node1/SRAM.o
- .debug_info    0x0000380b      0x213 Node1/Uart.o
+ .debug_info    0x00000705      0x4e1 Node1/CAN.o
+ .debug_info    0x00000be6       0x94 Node1/Clock.o
+ .debug_info    0x00000c7a      0xfb3 Node1/Display.o
+ .debug_info    0x00001c2d      0x429 Node1/Joystick.o
+ .debug_info    0x00002056      0x8bb Node1/main.o
+ .debug_info    0x00002911      0x798 Node1/MCP2515.o
+ .debug_info    0x000030a9      0x5c8 Node1/SPI.o
+ .debug_info    0x00003671      0x17a Node1/SRAM.o
+ .debug_info    0x000037eb      0x213 Node1/Uart.o
 
 .debug_abbrev   0x00000000     0x1472
  *(.debug_abbrev)
@@ -1118,19 +1118,19 @@ END GROUP
  .debug_abbrev  0x00001285       0xbd Node1/SRAM.o
  .debug_abbrev  0x00001342      0x130 Node1/Uart.o
 
-.debug_line     0x00000000     0x1ace
+.debug_line     0x00000000     0x1aba
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x140 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_line    0x00000140      0x10b Node1/Adc.o
- .debug_line    0x0000024b      0x239 Node1/CAN.o
- .debug_line    0x00000484       0xbe Node1/Clock.o
- .debug_line    0x00000542      0x6b7 Node1/Display.o
- .debug_line    0x00000bf9      0x32b Node1/Joystick.o
- .debug_line    0x00000f24      0x380 Node1/main.o
- .debug_line    0x000012a4      0x2ab Node1/MCP2515.o
- .debug_line    0x0000154f      0x2fa Node1/SPI.o
- .debug_line    0x00001849      0x171 Node1/SRAM.o
- .debug_line    0x000019ba      0x114 Node1/Uart.o
+ .debug_line    0x0000024b      0x225 Node1/CAN.o
+ .debug_line    0x00000470       0xbe Node1/Clock.o
+ .debug_line    0x0000052e      0x6b7 Node1/Display.o
+ .debug_line    0x00000be5      0x32b Node1/Joystick.o
+ .debug_line    0x00000f10      0x380 Node1/main.o
+ .debug_line    0x00001290      0x2ab Node1/MCP2515.o
+ .debug_line    0x0000153b      0x2fa Node1/SPI.o
+ .debug_line    0x00001835      0x171 Node1/SRAM.o
+ .debug_line    0x000019a6      0x114 Node1/Uart.o
 
 .debug_frame    0x00000000      0x7b0
  *(.debug_frame)
@@ -1145,28 +1145,28 @@ END GROUP
  .debug_frame   0x000006c4       0xa8 Node1/SRAM.o
  .debug_frame   0x0000076c       0x44 Node1/Uart.o
 
-.debug_str      0x00000000      0xc22
+.debug_str      0x00000000      0xc10
  *(.debug_str)
  .debug_str     0x00000000      0x1f6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_str     0x000001f6      0x16c Node1/Adc.o
                                 0x1a5 (size before relaxing)
- .debug_str     0x00000362      0x205 Node1/CAN.o
-                                0x357 (size before relaxing)
- .debug_str     0x00000567       0x11 Node1/Clock.o
+ .debug_str     0x00000362      0x1f3 Node1/CAN.o
+                                0x345 (size before relaxing)
+ .debug_str     0x00000555       0x11 Node1/Clock.o
                                 0x182 (size before relaxing)
- .debug_str     0x00000578      0x334 Node1/Display.o
+ .debug_str     0x00000566      0x334 Node1/Display.o
                                 0x591 (size before relaxing)
- .debug_str     0x000008ac       0x85 Node1/Joystick.o
+ .debug_str     0x0000089a       0x85 Node1/Joystick.o
                                 0x319 (size before relaxing)
- .debug_str     0x00000931      0x175 Node1/main.o
+ .debug_str     0x0000091f      0x175 Node1/main.o
                                 0x4f2 (size before relaxing)
- .debug_str     0x00000aa6       0x96 Node1/MCP2515.o
+ .debug_str     0x00000a94       0x96 Node1/MCP2515.o
                                 0x3b3 (size before relaxing)
- .debug_str     0x00000b3c       0x37 Node1/SPI.o
+ .debug_str     0x00000b2a       0x37 Node1/SPI.o
                                 0x312 (size before relaxing)
- .debug_str     0x00000b73       0x58 Node1/SRAM.o
+ .debug_str     0x00000b61       0x58 Node1/SRAM.o
                                 0x1d7 (size before relaxing)
- .debug_str     0x00000bcb       0x57 Node1/Uart.o
+ .debug_str     0x00000bb9       0x57 Node1/Uart.o
                                 0x1c7 (size before relaxing)
 
 .debug_loc      0x00000000     0x1ef7

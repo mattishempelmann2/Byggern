@@ -23,14 +23,21 @@ float compute_desired_pos(int joystick_ref, int joy_or_touch){
 
 float PID_controller(int joystick_ref, int joy_or_touch){
 	float e = compute_desired_pos(joystick_ref, joy_or_touch) - get_position();
+	//static float last_error = 0;
 	
 	float T = 0.1;
 	float k_p = 2;
 	float k_i = 1;
+	//float k_d = 0.5;
 	static float sum_of_errors = 0;
+// 	if(abs(sum_of_errors)>5000){
+// 		sum_of_errors = sum_of_errors;
+// 	}else{
+// 		sum_of_errors += e * T;
+// 	}
 	sum_of_errors += e * T;
-	
-	float control_input = k_p*e + k_i*sum_of_errors;
+	float control_input = k_p*e + k_i*sum_of_errors;// + 0*  (k_d/T)*(e-last_error);
+	//last_error = e;
 	return control_input;
 }
 

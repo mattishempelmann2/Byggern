@@ -48,9 +48,7 @@ int main(void)
 	
 	printf("Restarting \n\r");
 	
-	
-	int something = 0;
-	int start = 1;
+
 	int joy_or_touch = 1;
     while (1) 
     {  
