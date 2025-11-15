@@ -52,10 +52,11 @@ int main(void)
 	
 	int something = 0;
 	int start = 1;
+	int joy_or_touch = 0;
     while (1) 
     {  
 		
- 		while(!IOboard.byte[1]) can_rx(&IOboard);
+ 		while(!IOboard.byte[4]) can_rx(&IOboard);
 		//printf("encoder: %d \n\r", get_position());
 		if(pid_flag){
  			
@@ -63,8 +64,8 @@ int main(void)
  			
   			solenoid_hit(IOboard.byte[7]);
   			
-  			set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
-  			set_duty_control_input(PID_controller(IOboard.byte[5])); // regulates based on touchpad
+  			set_duty_joystick(IOboard.byte[3], IOboard.byte[1]);
+  			set_duty_control_input(PID_controller(IOboard.byte[2],joy_or_touch)); // regulates based on touchpad
  			
   			if (count_score(&previous_result)){
   				uart_tx('p');

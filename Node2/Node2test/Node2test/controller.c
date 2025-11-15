@@ -7,15 +7,22 @@
 
 #include "controller.h"
 
-float compute_desired_pos(int joystick_ref){
-	float ratio = (float)2800/256;
-	float desired_pos = joystick_ref * ratio;
+float compute_desired_pos(int joystick_ref, int joy_or_touch){
+	float desired_pos = 0;
+	if(joy_or_touch){
+		float ratio = (float)2800/256;
+		desired_pos = joystick_ref * ratio;
+	}
+	else{
+		float ratio = (float)2800/(ADC_MAX-ADC_MIN);
+		desired_pos = (joystick_ref-ADC_MIN) * ratio;
+	}
 	return desired_pos;
 }
 
 
-float PID_controller(int joystick_ref){
-	float e = compute_desired_pos(joystick_ref) - get_position() - 50;
+float PID_controller(int joystick_ref, int joy_or_touch){
+	float e = compute_desired_pos(joystick_ref, joy_or_touch) - get_position();
 	
 	float T = 0.1;
 	float k_p = 2;

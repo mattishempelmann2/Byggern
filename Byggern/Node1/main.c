@@ -41,7 +41,7 @@ int main(void)
 	char* buffer2[16];
 	
 	sprintf(buffer, "Points left:  %d", score);
-	sprintf(buffer2, "Your score:  %d", score);
+	sprintf(buffer2, "Your score:  %d", points);
 
 	
 	char* main_items[] = {"Welcome" , " ", "start game", "highscores"};

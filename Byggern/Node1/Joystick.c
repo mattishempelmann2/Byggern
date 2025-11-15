@@ -109,10 +109,10 @@ volatile void Joystick_CAN(){
 	joystick.id = 2;
 	joystick.data_length = 8;
 	joystick.data[0] = controller.x_zero;
-	//joystick.data[1] = controller.y_zero;
-	joystick.data[1] = get_start();
+	joystick.data[1] = controller.y_zero;
 	joystick.data[2] = controller.x_int;
-	//joystick.data[3] = controller.y_int;
+	joystick.data[3] = controller.y_int;
+	joystick.data[4] = get_start();
 	//joystick.data[4] = controller.dir;
 	joystick.data[5] = controller.touchpad_x;
 	//joystick.data[6] = controller.touchpad_y;

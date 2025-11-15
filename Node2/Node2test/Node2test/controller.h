@@ -11,9 +11,9 @@
 #define CONTROLLER_H_
 
 
-float compute_desired_pos(int joystick_ref);
+float compute_desired_pos(int joystick_ref, int joy_or_touch);
 
-float PID_controller(int joystick_ref);
+float PID_controller(int joystick_ref, int joy_or_touch);
 
 
 void set_duty_control_input(float control_input);
