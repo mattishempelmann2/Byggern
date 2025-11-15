@@ -7,36 +7,36 @@
 
 #include "controller.h"
 
-int compute_desired_pos(int joystick_ref){
+float compute_desired_pos(int joystick_ref){
 	float ratio = (float)2800/256;
-	int desired_pos = joystick_ref * ratio;
+	float desired_pos = joystick_ref * ratio;
 	return desired_pos;
 }
 
 
-int PID_controller(int joystick_ref){
-	int e = compute_desired_pos(joystick_ref) - get_position();
+float PID_controller(int joystick_ref){
+	float e = compute_desired_pos(joystick_ref) - get_position() - 50;
 	
 	float T = 0.1;
-	uint16_t k_p = 14;
-	uint16_t k_i = 2;
-	static int sum_of_errors = 0;
-	sum_of_errors += e;
+	float k_p = 2;
+	float k_i = 1;
+	static float sum_of_errors = 0;
+	sum_of_errors += e * T;
 	
-	int control_input = k_p*e + T*k_i*sum_of_errors;
-	//printf("Control input %d \n\r", control_input);
+	float control_input = k_p*e + k_i*sum_of_errors;
+	//printf("Control input %.6f \n\r", control_input);
 	return control_input;
 }
 
-void set_duty_control_input(int control_input){
+void set_duty_control_input(float control_input){
 	if (control_input < 0){
 		set_motor_direction(2);
+		control_input = - control_input;
 	}
 	else{
 		set_motor_direction(3);
 	}
-	
-	set_duty_cycle_x(abs(control_input));
+	set_duty_cycle_motor(control_input);
 	
 }
 

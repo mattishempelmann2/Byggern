@@ -114,6 +114,18 @@ uint8_t can_rx(CanMsg* m){
 
     return 1;
 }
+
+void can_score(int score){
+	CanMsg can_score;
+	can_score.id = 1;
+	can_score.length = 1;
+	can_score.byte[0] = 45;
+	
+	can_tx(can_score);
+	uart_tx("x");
+}
+
+
     
     
 

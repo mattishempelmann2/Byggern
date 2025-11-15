@@ -29,8 +29,9 @@ int main(void)
 	can_init(can100kbit_84MHz,0);
 	PWM_init();
 	ADC_init();
+	set_duty_cycle_motor(0);
 	encoder_init();
-
+	solenoid_init();
 
 	__enable_irq();
 	
@@ -38,13 +39,13 @@ int main(void)
 	
  	CanMsg IOboard;
 
-	int score = 100;
+	int score = 25;
 	int previous_result;
 	previous_result = 0;
 
 	can_rx(&IOboard);
 	
-	solenoid_init();
+	
 	
 	printf("Restarting \n\r");
 	
@@ -54,23 +55,28 @@ int main(void)
     while (1) 
     {  
 		
-		while(!IOboard.byte[1]) can_rx(&IOboard);
-
-		
+ 		while(!IOboard.byte[1]) can_rx(&IOboard);
+		//printf("encoder: %d \n\r", get_position());
 		if(pid_flag){
-			
-			can_rx(&IOboard);
+ 			
+ 			can_rx(&IOboard);
+ 			
+  			solenoid_hit(IOboard.byte[7]);
+  			
+  			set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
+  			set_duty_control_input(PID_controller(IOboard.byte[5])); // regulates based on touchpad
+ 			
+  			if (count_score(&previous_result)){
+  				uart_tx('p');
+  				score = score - 1;
+  				previous_result = 1;
+  				can_score(score); // Sends score
+  			}
+ 			
 			pid_flag = 0;
-			solenoid_hit(IOboard.byte[7]);
 			
-			set_duty_joystick(IOboard.byte[2], IOboard.byte[0]);
-			set_duty_control_input(PID_controller(IOboard.byte[5])); // regulates based on touchpad
-			
-			if (count_score(&previous_result)){
-				score = score - 1;
-				previous_result = 1;
-			}
 		}
+		
 	}
 }
 

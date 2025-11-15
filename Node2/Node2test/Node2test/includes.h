@@ -12,8 +12,8 @@
 #define F_CPU 84000000
 #define maxduty 4200
 #define minduty 1800
-#define maxDuty_x 40000
-#define minDuty_x 0
+#define maxDuty_x 4200 // was 40000
+#define minDuty_x 0 // stays the same, makes sense
 #define ADC_MIN 66
 #define ADC_MAX 245
 
@@ -25,6 +25,7 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "controller.h"
+#include <math.h>
 
 
 

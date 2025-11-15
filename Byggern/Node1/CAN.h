@@ -21,8 +21,6 @@ void CAN_write(uint8_t buffer_number, CANMessage message);
 
 void CAN_initialize();
 
-ISR(INT0_vect);
-
 void CAN_receive(CANMessage *message);
 
 volatile void CAN_start();

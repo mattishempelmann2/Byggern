@@ -106,7 +106,7 @@ uint8_t joystick_btn_press(){
 volatile void Joystick_CAN(){
 	CANMessage joystick;
 	
-	joystick.id = 0;
+	joystick.id = 2;
 	joystick.data_length = 8;
 	joystick.data[0] = controller.x_zero;
 	//joystick.data[1] = controller.y_zero;
@@ -117,6 +117,7 @@ volatile void Joystick_CAN(){
 	joystick.data[5] = controller.touchpad_x;
 	//joystick.data[6] = controller.touchpad_y;
 	joystick.data[7] = joystick_btn_press();
+// 	printf("touchpad: %d \n\r", joystick.data[5]);
 
 	CAN_write(0,joystick);
 }

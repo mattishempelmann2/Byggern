@@ -11,12 +11,12 @@
 #define CONTROLLER_H_
 
 
-int compute_desired_pos(int joystick_ref);
+float compute_desired_pos(int joystick_ref);
 
-int PID_controller(int joystick_ref);
+float PID_controller(int joystick_ref);
 
 
-void set_duty_control_input(int control_input);
+void set_duty_control_input(float control_input);
 
 void PID_timer_init();
 

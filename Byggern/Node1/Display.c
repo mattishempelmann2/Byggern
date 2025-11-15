@@ -24,8 +24,10 @@ void display_cmd(uint8_t* command, int size){
 }
 
 void display_data(uint8_t* data, int size){
+	cli();
 	setBit(PORTB, PB1);
 	spi_write_bytes(data, size, DISPLAY);
+	sei();
 }
 
 
@@ -239,6 +241,8 @@ void display_print_menu(uint8_t page , menu menu_lines ){
 uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 	updateJoystick();
 	if(joystick_btn_press()){
+		//display_print_menu(menu_p->current_pos,menu_lines);
+		display_all_pages();
 		return menu_p->current_pos;
 	}
 	
@@ -274,7 +278,8 @@ uint8_t display_update_menu(menu_pos* menu_p, menu menu_lines){
 		}
 		else if(controller.dir == 4){ // Neutral position
 			menu_p->previous_joystick_pos = 4;
-			
+			display_invert_page(menu_p->current_pos);
+			display_print_menu(menu_p->current_pos,menu_lines);
 		}
 	}
 	

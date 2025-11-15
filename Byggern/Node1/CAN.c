@@ -48,14 +48,16 @@ void CAN_receive(CANMessage *message) {
 		uint8_t id_start = spi_read();
  		uint8_t id_end = spi_read();
 		 
+		 
 		message->id =(id_start<<3 | id_end >> 5);
 		spi_read(); spi_read();
 		message->data_length = spi_read();
-		printf("Id: %d, Data_length: %d \n\r", message->id, message->data_length);
-		for (int i = 0; i<8;i++){
-			 message->data[i]=spi_read();
-			 printf("Data %d: %d\n\r", i, message->data[i]);
-		 }
+//		IO_button_on_leds(0);
+// 		printf("Id: %d \n\r", message->id);
+//  		for (int i = 0; i<7;i++){
+// 			 message->data[i]=spi_read();
+//  			 printf("Data %d: %d\n\r", i, message->data[i]);
+// 		 }
 		 deselect_slave(CAN);
 	}
 }
@@ -80,30 +82,3 @@ volatile void CAN_start() {
 
 uint8_t get_start() { return game_start;}
 
-ISR(INT0_vect) {
-	CANMessage received_message;
-
-	uint8_t intf;
-	mcp2515_read(&intf, MCP_CANINTF, 1);
-
- 	if (intf & (MCP_RX0IF)) {
- 		CAN_receive(&received_message);
- 		mcp2515_bit_modify(MCP_CANINTF, MCP_RX0IF, 0x00);
- 	}
- 	if (intf & (MCP_RX1IF)) {
- 		CAN_receive(&received_message);
- 		mcp2515_bit_modify(MCP_CANINTF, MCP_RX1IF, 0x00);
- 	}
- 	
- 	if (intf & (MCP_TX1IF)) {
- 		mcp2515_bit_modify(MCP_CANINTF,  MCP_TX1IF, 0x00);
- 	}
-	 
-	if (intf & (MCP_TX2IF)) {
-		 mcp2515_bit_modify(MCP_CANINTF,  MCP_TX2IF, 0x00);
-	 }
-	 
-	if (intf & (MCP_TX0IF)) {
-		 mcp2515_bit_modify(MCP_CANINTF,  MCP_TX0IF, 0x00);
-	 }
-}
