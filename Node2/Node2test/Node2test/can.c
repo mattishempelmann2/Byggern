@@ -94,28 +94,24 @@ uint8_t can_rx(CanMsg* m){
    }
     // Get message ID
     m->id = (uint8_t)((CAN0->CAN_MB[rxMailbox].CAN_MID & CAN_MID_MIDvA_Msk) >> CAN_MID_MIDvA_Pos);
-	//printf("%", (unsigned long)m->id);
         
     // Get data length
     m->length = (uint8_t)((CAN0->CAN_MB[rxMailbox].CAN_MSR & CAN_MSR_MDLC_Msk) >> CAN_MSR_MDLC_Pos);
 
-	//printf("%lu\r\n", (unsigned long)m->length);
     
     // Get data from CAN mailbox
     m->dword[0] = CAN0->CAN_MB[rxMailbox].CAN_MDL;
     m->dword[1] = CAN0->CAN_MB[rxMailbox].CAN_MDH;
 	for(int i = 0;  i < m->length; i++) {
-		//printf("%d, ", (int)m->byte[i]);
 	}
     // Reset for new receive
     CAN0->CAN_MB[rxMailbox].CAN_MMR = CAN_MMR_MOT_MB_RX;
     CAN0->CAN_MB[rxMailbox].CAN_MCR |= CAN_MCR_MTCR;
-	//printf("\n\r");
 
     return 1;
 }
 
-void can_score(int score){
+void can_score(){
 	CanMsg can_score;
 	can_score.id = 1;
 	can_score.length = 1;

@@ -44,12 +44,6 @@ void PWM_init(){ //use PWMH0 on PA8
 }
 
 void set_duty_cycle_servo(uint32_t duty_cycle){
-	//max = 10.5%
-	//min = 4.5%
-	//duty_cycle = 10.5% = 10.5*10 = 105
-
-	
-	
 	if(duty_cycle > maxduty){
 		duty_cycle = maxduty;
 	}
@@ -57,7 +51,6 @@ void set_duty_cycle_servo(uint32_t duty_cycle){
 		duty_cycle = minduty;
 	}
 		
-	
 	PWM->PWM_CH_NUM[1].PWM_CDTY = 40000-duty_cycle;
 	
 }
@@ -69,9 +62,7 @@ void set_duty_cycle_motor(float duty_cycle){
 	if(duty_cycle < minDuty_x){
 		duty_cycle = minDuty_x;
 	}
-	//printf("Duty cycle float: %.6f \n\r",duty_cycle);
 	int duty_cycle_int = (uint32_t)duty_cycle;
-	//printf("Duty cycle: %d \n\r",duty_cycle_int);
 	PWM->PWM_CH_NUM[0].PWM_CDTY = 4200-duty_cycle_int; // new max is 4200 change way duty cycle is calc
 	
 }
@@ -98,22 +89,6 @@ void set_duty_joystick(uint8_t x_pos, uint8_t x_zero){
 
 
 
-//uint8_t joystick_to_percent(uint8_t verdi) {
-	//if (verdi < ADC_MIN) verdi = ADC_MIN;
-	//if (verdi > ADC_MAX) verdi = ADC_MAX;
-//
-	//// Scale linearly
-	//return ((uint32_t)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
-//}
-//
-//int joystick_to_ref(int x_pos){
-	//uint8_t x_percent = joystick_to_percent(x_pos);
-	//int ref = x_percent - 50;
-	//printf("reference: %d \n\r",ref);
-	//if(abs(ref) < 5){return 0;}
-	//return ref;
-//}
-
 int joystick_to_percent(int verdi) {
 	if (verdi < ADC_MIN) verdi = ADC_MIN;
 	if (verdi > ADC_MAX) verdi = ADC_MAX;
@@ -121,14 +96,6 @@ int joystick_to_percent(int verdi) {
 	return ((int)(verdi - ADC_MIN) * 100) / (ADC_MAX - ADC_MIN);
 }
 
-// int joystick_to_ref(int x_pos){
-// 	int x_percent = joystick_to_percent(x_pos);
-// 	if(abs(x_percent - 50) < 5){return 0;}
-// 	int scale = 5;
-// 	int ref = (x_percent - 50)*scale;
-// 	printf("reference: %d \n\r",ref);
-// 	return ref;
-// }
 
 
 void quad_init(){
@@ -154,7 +121,7 @@ void quad_init(){
 void encoder_init(){
 	set_motor_direction(2);
 	set_duty_cycle_motor(5000);
-	for (volatile int i = 0; i < 500000; i++); // small delay, replace with timer func once impelmented
+	for (volatile int i = 0; i < 1000000; i++); // small delay
 	set_duty_cycle_motor(0);
 	quad_init();
 }

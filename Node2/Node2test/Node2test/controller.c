@@ -31,7 +31,6 @@ float PID_controller(int joystick_ref, int joy_or_touch){
 	sum_of_errors += e * T;
 	
 	float control_input = k_p*e + k_i*sum_of_errors;
-	//printf("Control input %.6f \n\r", control_input);
 	return control_input;
 }
 
@@ -48,16 +47,14 @@ void set_duty_control_input(float control_input){
 }
 
 void PID_timer_init(){
-	PMC->PMC_PCER0 |= (1 << (ID_TC1)); //enable clock tc2 channel 7, 
-	
-	//TC0->TC_WPMR = 0x54494D << 8 | 0b00000000;
-	
+	PMC->PMC_PCER0 |= (1 << (ID_TC1)); //enable clock tc0 channel 1, 
+		
 	TC0->TC_CHANNEL[1].TC_CCR = TC_CCR_CLKDIS; // klokke av, ikke telle under config
 	TC0->TC_CHANNEL[1].TC_IDR = 0xFFFFFFFF; // innterrupt av, ikke interrupt under config
 	TC0->TC_CHANNEL[1].TC_SR; // lese statusregister for reset
 	
 	TC0->TC_CHANNEL[1].TC_CMR = TC_CMR_TCCLKS_TIMER_CLOCK4 | TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC; // MCK/128 = 625.25kHz, waveform mode, tell opp til compare match, interrupt ved topp.
-	TC0->TC_CHANNEL[1].TC_RC = 65600; // tell opp til 656000 gir oss 10Hz sampling
+	TC0->TC_CHANNEL[1].TC_RC = 65600; // tell opp til 65600 gir oss 10Hz sampling
 	
 	
 	NVIC_EnableIRQ(TC1_IRQn); // innterupt handler som kalle pid regulator

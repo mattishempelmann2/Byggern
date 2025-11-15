@@ -39,7 +39,6 @@ int main(void)
 	
  	CanMsg IOboard;
 
-	int score = 25;
 	int previous_result;
 	previous_result = 0;
 
@@ -57,7 +56,6 @@ int main(void)
     {  
 		
  		while(!IOboard.byte[4]) can_rx(&IOboard);
-		//printf("encoder: %d \n\r", get_position());
 		if(pid_flag){
  			
  			can_rx(&IOboard);
@@ -76,9 +74,8 @@ int main(void)
  			
   			if (count_score(&previous_result)){
   				uart_tx('p');
-  				score = score - 1;
   				previous_result = 1;
-  				can_score(score); // Sends score
+  				can_score(); // Sends score
   			}
  			
 			pid_flag = 0;
